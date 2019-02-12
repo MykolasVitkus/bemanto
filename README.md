@@ -3,5 +3,6 @@ One of the best teams without Mantas out there developing the best product with 
 
 # Members of team
 
-Mykolas Vitkus
+Mykolas Vitkus,
+Martynas Kasparavičius,
 Povilas Pockevičius
