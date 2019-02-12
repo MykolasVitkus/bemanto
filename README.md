@@ -5,4 +5,5 @@ One of the best teams without Mantas out there developing the best product with 
 
 Mykolas Vitkus,
 Martynas Kasparavičius,
-Povilas Pockevičius
+Povilas Pockevičius,
+Renatas Birštonas
