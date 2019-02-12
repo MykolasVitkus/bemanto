@@ -4,4 +4,5 @@ One of the best teams out there developing the best product with the most talent
 # Members of team
 
 Mykolas Vitkus,
-Martynas Kasparavičius
+Martynas Kasparavičius,
+Renatas Birštonas
