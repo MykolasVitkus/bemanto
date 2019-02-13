@@ -6,4 +6,5 @@ One of the best teams out there developing the best product with the most talent
 Mykolas Vitkus,
 Martynas Kasparavičius,
 Povilas Pockevičius,
-Renatas Birštonas
+Renatas Birštonas,
+Vilius Antanavičius
