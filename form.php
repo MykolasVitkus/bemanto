@@ -1,9 +1,5 @@
 <?php
 
-    /*
-    *   Using PASSWORD_BCRYPT algorithm for password_hash() method.
-    */
-
     class User
     {
         public $userEmail;
