@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="jumbotron text-center">
+        <h1>
+            Login Form
+        </h1>
+
+    </div>
+    <form action="SecurityController.php" method="post" class="container col-sm-6">
+
+        <div class="form-group text-left">
+            <label for="username">Username</label>
+            <input type="text" name="user" class="form-control" id="username">
+        </div>
+        <div class="form-group text-left">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" name="password" id="pwd">
+        </div>
+    
+        <input name="Submit" type="submit" value="Login" class="btn btn-primary">
+    </form>
+</body>
+</html>
