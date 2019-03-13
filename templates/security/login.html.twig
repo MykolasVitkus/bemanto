@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block title %}Login{% endblock %}
+{% block body %}
+    <form method="post" class="container col-sm-4">
+
+        <div class="jumbotron text-center">
+            <h1><small>Log into</small> bemanto</h1>
+        </div>
+        {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" id="errorMsg" role="alert">
+                <button class="close" data-dismiss="alert" type="button">&times;</button>
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+            <div class="form-group text-left">
+                <label for="inputEmail">Email</label>
+                <input type="email" name="email" class="form-control" id="inputEmail" value="{{ last_username }}" placeholder="Email"></div>
+            </div>
+            <div class="form-group text-left">
+                <label for="inputPassword">Password:</label>
+                <input class="form-control" id="inputPassword" name="password" placeholder="Password" required type="password">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">   
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit">Login</button>
+                <a href={{ '/register' }}><button class="btn btn-secondary" type="button">Register</button></a>
+            </div>
+</form>
+{% endblock %}
+        
