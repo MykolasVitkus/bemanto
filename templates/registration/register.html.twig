@@ -18,8 +18,10 @@
         {{ form_row(registrationForm.password.second) }}
         <p>
         <div class="text-center">
-            <button class="btn btn-primary" type="submit">Register</button>
+            <button class="btn btn-primary" type="submit">Register</button> 
         </div>
     {{ form_end(registrationForm) }}
+
+    <span class="text-center"><p>Already have an account? <a href={{ '/login' }}>Login here</a></span>
     </div>
 {% endblock %}
