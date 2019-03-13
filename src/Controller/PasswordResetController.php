@@ -25,7 +25,7 @@ class PasswordResetController extends AbstractController
 
         }
 
-        return $this->render('password_reset/index.html.twig', [
+        return $this->render('password_reset/pass_reset.html.twig', [
             'pageTitle' => 'Password reset',
             'email_form' => $form->createView(),
         ]);
