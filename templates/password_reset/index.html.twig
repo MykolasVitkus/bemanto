@@ -16,18 +16,34 @@
     <div class="row border rounded-lg shadow-sm">
         <div class="col ">
             <h1 class="mt-2">Forgot your password?</h1>
-            <p class="lead">If you forgot your account password, please enter your email address and we will send you a link to reset your password.</p>
+            <p class="lead">If you forgot your account password, please enter your email address and we will send you a link to reset it.</p>
 
+            <!--
             <div class = "alert alert-danger">
-                <strong>Error!</strong> The given email was not found. Please check your email and try again.
+                <strong>Oops...</strong> The given email was not found. Please check your email and try again.
             </div>
+            -->
 
+            {{ form_start(email_form) }}
+            
+                {{ form_errors(email_form.email) }}
+                <div class="input-group col-lg-7 mb-3 ml-n3">
+                    {{ form_widget(email_form.email) }}
+                    
+                    <div class="input-group-append">
+                        {{ form_widget(email_form.submit) }}
+                    </div>
+                </div>
+
+            {{ form_end(email_form) }}
+            <!--
             <div class="input-group col-lg-7 mb-3 ml-n3">
                 <input type="text" class="form-control" placeholder="example@email" aria-label="Users email" name = "emailInput">
                 <div class="input-group-append">
                     <input class="btn btn-success" type="submit" value = "Submit" name = "submitButton">
                 </div>
             </div>
+            -->
         </div>
     </div>
 </div>
