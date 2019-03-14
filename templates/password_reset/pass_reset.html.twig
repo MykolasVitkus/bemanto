@@ -18,11 +18,11 @@
             <h1 class="mt-2">Forgot your password?</h1>
             <p class="lead">If you forgot your account password, please enter your email address and we will send you a link to reset it.</p>
 
-            <!--
-            <div class = "alert alert-danger">
-                <strong>Oops...</strong> The given email was not found. Please check your email and try again.
+            {% if errorMessage %}
+            <div class = "alert alert-{{ errorType }}">
+                <strong>{{ errorTitle }}</strong> {{ errorMessage }}
             </div>
-            -->
+            {% endif %}
 
             {{ form_start(email_form) }}
             
