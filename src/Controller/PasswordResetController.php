@@ -13,7 +13,7 @@ class PasswordResetController extends AbstractController
     /**
      * @Route("/password_reset", name="password_reset")
      */
-    public function index(Request $request)
+    public function index(Request $request, \Swift_Mailer $mailer)
     {
         $form = $this->createForm(PasswordResetType::class, [
             'action' => $this->generateUrl('password_reset')
@@ -35,7 +35,18 @@ class PasswordResetController extends AbstractController
                 $errorTitle = "Success! ";
                 $errorMessage = "Password recovery link was sent to your email. Please check your inbox and follow the instructions.";
                 
-                // send email
+                $emailMessage = (new \Swift_Message('Password reset'))
+                    ->setFrom('bemantelio@gmail.com')
+                    ->setTo($user->getEmail())
+                    ->setBody(
+                        $this->renderView(
+                            'password_reset/pass_reset_message.html.twig',
+                            ['userEmail' => $user->getEmail()]
+                        ),
+                        'text/html'
+                    );
+
+                $mailer->send($emailMessage);
             }
             else
             {
