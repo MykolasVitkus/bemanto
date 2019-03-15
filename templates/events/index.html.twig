@@ -2,15 +2,22 @@
 {% block title %}
     {{ controller_name }}{% endblock %}
 {% block body %}
+    <style>
+        @media only screen and (max-width: 768px) {
+            #event{
+                height: 590px !important;
+            }
+        }
+    </style>
     <div class="page bg-white">
-        <h1 style="border-radius: 0 !important;" class="jumbotron text-center bg-secondary text-light no-border">
+        <h1 class="jumbotron text-center bg-secondary text-light no-border" style="border-radius: 0 !important;">
             {{ controller_name }}</h1>
-            {{ include('events/filter.html.twig') }}
+        {{ include('events/filter.html.twig') }}
         <div class="album bg-light">
             <div class="container">
                 <div class="row">
                     {% for event in events %}
-                        <div class="col-md-4 bg-light pl-1 pr-1 pb-2" style="height: 510px;">
+                        <div class="col-md-4 bg-light pl-1 pr-1 pb-2" id="event" style="height: 510px;">
                             <div class="card mb-r box-shadow pl-3 pr-3 h-100">
                                 <img alt="{{ event.title }}" class="w-100 pt-3 mb-2" src="images/{{ event.pictureid }}.jpg"/>
                                 <h2>
