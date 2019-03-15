@@ -3,15 +3,18 @@
 {% block title %} {{ pageTitle }} {% endblock %}
 
 {% block stylesheets %}
+
 <style>
     .row
     {
         background-color: #f9f9f9;
     }
 </style>
+
 {% endblock %}
 
 {% block body %}
+
 <div class="container col-lg-6 mt-3">
     <div class="row border rounded-lg shadow-sm">
         <div class="col ">
@@ -19,9 +22,11 @@
             <p class="lead">If you forgot your account password, please enter your email address and we will send you a link to reset it.</p>
 
             {% if errorTitle %}
-            <div class = "alert alert-{{ errorType }}">
-                <strong>{{ errorTitle }}</strong> {{ errorMessage }}
-            </div>
+
+                <div class = "alert alert-{{ errorType }}">
+                    <strong>{{ errorTitle }}</strong> {{ errorMessage }}
+                </div>
+
             {% endif %}
 
             {{ form_start(email_form) }}
@@ -36,15 +41,9 @@
                 </div>
 
             {{ form_end(email_form) }}
-            <!--
-            <div class="input-group col-lg-7 mb-3 ml-n3">
-                <input type="text" class="form-control" placeholder="example@email" aria-label="Users email" name = "emailInput">
-                <div class="input-group-append">
-                    <input class="btn btn-success" type="submit" value = "Submit" name = "submitButton">
-                </div>
-            </div>
-            -->
+
         </div>
     </div>
 </div>
+
 {% endblock %}
