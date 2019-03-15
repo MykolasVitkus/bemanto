@@ -44,7 +44,15 @@ class Event
     /**
      * @ORM\Column(type="string", length=255)
      */
+    
     private $location;
+
+    /**
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $pictureID;
+    
 
     public function getId(): ?int
     {
@@ -122,4 +130,10 @@ class Event
 
         return $this;
     }
+    
+    public function getPictureId(): ?int
+    {
+        return $this->pictureID;
+    }
+
 }
