@@ -38,7 +38,7 @@ class PasswordResetController extends AbstractController
                 $hashedEmail = password_hash($user->getEmail(), PASSWORD_BCRYPT);
                 $generatedUrl = $this->generateUrl('password_reset_confirm', ['token' => $hashedEmail, 'email' => $user->getEmail()], UrlGenerator::ABSOLUTE_URL);
 
-                $emailMessage = (new \Swift_Message('Password reset'))
+                $emailMessage = (new \Swift_Message('Password change request'))
                     ->setFrom('bemantelio@gmail.com')
                     ->setTo($user->getEmail())
                     ->setBody(
