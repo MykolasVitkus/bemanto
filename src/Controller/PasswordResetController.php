@@ -23,7 +23,7 @@ class PasswordResetController extends AbstractController
         $form->handleRequest($request);
         $errorMessage = "Password recovery link was sent to your email. Please check your inbox and follow the instructions.";
         $errorType = "success";
-        $errorTitle = "Success! ";
+        $errorTitle = null;
 
         if($form->isSubmitted() && $form->isValid())
         {
@@ -33,6 +33,8 @@ class PasswordResetController extends AbstractController
 
             if(isset($user))
             {
+                $errorTitle = "Success! ";
+
                 $hashedEmail = password_hash($user->getEmail(), PASSWORD_BCRYPT);
                 $generatedUrl = $this->generateUrl('password_reset_confirm', ['token' => $hashedEmail, 'email' => $user->getEmail()], UrlGenerator::ABSOLUTE_URL);
 
@@ -44,7 +46,7 @@ class PasswordResetController extends AbstractController
                             'password_reset/pass_reset_message.html.twig',
                             [
                                 'userEmail' => $user->getEmail(),
-                                'generatedUrl' => $generatedUrl ]//'hashedEmail' => $hashedEmail] //'tokenUrl' => $tokenUrl]
+                                'generatedUrl' => $generatedUrl ]
                         ),
                         'text/html'
                     );

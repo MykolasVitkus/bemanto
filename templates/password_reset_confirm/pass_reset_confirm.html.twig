@@ -1,10 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Password change{% endblock %}
+{% block title %}{{ pageTitle }}{% endblock %}
 
 {% block body %}
 
-{{ token }}
-{{ email }}
+{% if successMessage %}
+
+    <!--  Success message if the password has been changed successfully  -->
+    <div class="container col-sm-6 mt-3">
+        <div class="alert alert-success">
+            <h3>Password has been changed</h3>
+            {{ successMessage }}
+        </div>
+    </div>
+    
+
+{% elseif errorMessage %}
+
+    <!--  Error message if the token and email address did not match  -->
+    <div class="container col-sm-6 mt-3">
+        <div class="alert alert-danger">
+            <h3>Something went wrong!</h3>
+            {{ errorMessage }}
+        </div>
+    </div>
+
+{% else %}
+
+    <div class="container col-sm-3 mt-3">
+
+        {{ form_start(password_form) }}
+            
+            {{ form_errors(password_form.password) }}
+            <div>
+            {{ form_row(password_form.password.first) }}
+            </div>
+            {{ form_row(password_form.password.second) }}
+            <p>
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+
+        {{ form_end(password_form) }}
+
+    </div>
+
+{% endif %}
 
 {% endblock %}
