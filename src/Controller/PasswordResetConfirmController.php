@@ -5,7 +5,6 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Form\RegistrationFormType;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Form\PasswordChangeType;
@@ -24,10 +23,15 @@ class PasswordResetConfirmController extends AbstractController
         $token = $request->query->get('token');
         $email = $request->query->get('email');
 
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
+            'email' => $email
+        ]);
+
         $errorMessage = null;
         $successMessage = null;
+        $tokenToVerify = $user->getEmail() . ':' . $user->getPassword();
 
-        if(!password_verify($email, $token))
+        if(!password_verify($tokenToVerify, $token))
         {
             $errorMessage = "There was a mistake trying to open this page. Please re-open the page by using a link from an email that we sent. If this keeps happening please contact website administrator.";
         }
@@ -36,10 +40,6 @@ class PasswordResetConfirmController extends AbstractController
         {
             $em = $this->getDoctrine()->getManager();
 
-            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
-                'email' => $email
-            ]);
-
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user, 
@@ -47,7 +47,6 @@ class PasswordResetConfirmController extends AbstractController
                 )
             );
 
-            $em->persist($user);
             $em->flush();
 
             $successMessage = "Your password has been changed successfully. You can now login into your account.";
