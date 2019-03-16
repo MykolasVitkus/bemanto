@@ -4,7 +4,7 @@
 {% block body %}
     <style>
         @media only screen and (max-width: 768px) {
-            #event{
+            #event {
                 height: 590px !important;
             }
         }
@@ -34,7 +34,9 @@
                                 <div class="wrapper" style="height: 120px; overflow: hidden; word-wrap: break-word;">
                                     {{ event.description }}
                                 </div>
-                                <button class="btn btn-dark bottom" style="position: absolute; bottom: 15px;" type="button">Read more</button>
+                                <a>
+                                    <button class="btn btn-dark bottom" style="position: absolute; bottom: 15px;" type="button">Read more</button>
+                                </a>
                             </div>
                         </div>
                     {% endfor %}
