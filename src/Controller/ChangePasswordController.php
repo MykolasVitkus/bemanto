@@ -27,10 +27,12 @@ class ChangePasswordController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            
-            if($passwordEncoder->encodePassword(
-                $user,
-                $form->get('currentpw')->getData())==$user->getPassword())
+            $currentpw = $user->getPassword();
+            $inputpw = $form->get('currentpw')->getData();
+
+
+
+            if(password_verify($inputpw, $currentpw))
             {
             $user->setPassword(
                 $passwordEncoder->encodePassword(
@@ -46,7 +48,7 @@ class ChangePasswordController extends AbstractController
             }
             else
             {
-                return $this->redirectToRoute('gay');
+                return $this->redirectToRoute($user->getPassword());
             }
         }
 
