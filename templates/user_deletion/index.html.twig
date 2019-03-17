@@ -15,22 +15,18 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col"><b>Num.</b></th>
-      <th scope="col">Email</th>
-      <th scope="col">Name</th>
-      <th scope="col">Surname</th>
-      <th scope="col">IP address</th>
-      <th scope="col"></th>
+      <th style="width: 5%" scope="col"><b>ID</b></th>
+      <th style="width: 10%" scope="col">Email</th>
+      <th style="width: 10%" scope="col">Role</th>
+      <th style="width: 5%" scope="col"></th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td style="width: 5%"><b>1</b></td>
-      <td style="width: 10%">test@test.tt</td>
-      <td style="width: 10%">Povilas</td>
-      <td style="width: 10%">Pockevicius</td>
-      <td style="width: 10%">151.18.11.8.8</td>
-      <td style="width: 5%">  <button type="button" class="btn btn-danger">Delete</button></td>
+    <tr id='1'>
+      <td><b>1</b></td>
+      <td>test@test.tt</td>
+      <td>User</td>
+      <td>  <button type="button" id='button1' onclick='DeleteUser(this.id)' class="btn btn-danger">Delete</button></td>
     </tr>
  
   </tbody>
@@ -42,6 +38,32 @@
 </style>
 
 <script>
+
+function DeleteUser(id)
+{
+  
+var rowId = document.getElementById(id).parentElement.parentElement.id; 
+ $(document).on('click', id, function(){
+            that = $(this);
+            $.ajax({
+                url:'{{ (path('app_bundle_route')) }}',
+                type: "POST",
+                dataType: "json",
+                data: {
+                    UserID: rowId,
+                },
+                async: true,
+                success: function (data)
+                {                   
+$('#'+rowId).empty();
+                }
+            });
+            return false;
+
+        });
+
+    
+}
 
 </script>
 
