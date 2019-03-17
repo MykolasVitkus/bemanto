@@ -11,26 +11,36 @@
 <div class="example-wrapper">
     <h1 style='text-align:center;padding-bottom: 5%'>User deletion panel</h1>
 </div>
+ 
 
 <table class="table">
   <thead>
     <tr>
       <th style="width: 5%" scope="col"><b>ID</b></th>
       <th style="width: 10%" scope="col">Email</th>
-      <th style="width: 10%" scope="col">Role</th>
+     
       <th style="width: 5%" scope="col"></th>
     </tr>
   </thead>
   <tbody>
-    <tr id='1'>
-      <td><b>1</b></td>
-      <td>test@test.tt</td>
-      <td>User</td>
-      <td>  <button type="button" id='button1' onclick='DeleteUser(this.id)' class="btn btn-danger">Delete</button></td>
+ 
+    {% for user in usersArray %}
+        <tr>{{ user.ID|e }}</tr>
+        <td>{{ user.ID|e }}</td>
+        <td>{{ user.Email|e }}</td>
+        <td>  <button type="button" id='button{{ user.ID|e }}' onclick='DeleteUser(this.id)' class="btn btn-danger">Delete</button></td>
+    {% endfor %}
+
+
+      
     </tr>
  
+
+
   </tbody>
 </table>
+
+
 
 <style>
 
@@ -41,26 +51,9 @@
 
 function DeleteUser(id)
 {
-  
-var rowId = document.getElementById(id).parentElement.parentElement.id; 
- $(document).on('click', id, function(){
-            that = $(this);
-            $.ajax({
-                url:'{{ (path('app_bundle_route')) }}',
-                type: "POST",
-                dataType: "json",
-                data: {
-                    UserID: rowId,
-                },
-                async: true,
-                success: function (data)
-                {                   
-$('#'+rowId).empty();
-                }
-            });
-            return false;
 
-        });
+var rowId = document.getElementById(id).parentElement.parentElement.id; 
+
 
     
 }
