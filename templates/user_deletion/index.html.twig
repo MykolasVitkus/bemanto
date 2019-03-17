@@ -17,25 +17,21 @@
   <thead>
     <tr>
       <th style="width: 5%" scope="col"><b>ID</b></th>
-      <th style="width: 10%" scope="col">Email</th>
-     
+      <th style="width: 10%" scope="col">Email</th>  
       <th style="width: 5%" scope="col"></th>
+    
     </tr>
   </thead>
   <tbody>
  
     {% for user in usersArray %}
-        <tr>{{ user.ID|e }}</tr>
+      <tr id='{{ user.ID|e }}'>
         <td>{{ user.ID|e }}</td>
         <td>{{ user.Email|e }}</td>
-        <td>  <button type="button" id='button{{ user.ID|e }}' onclick='DeleteUser(this.id)' class="btn btn-danger">Delete</button></td>
+        <td>    <a href="{{ path('admin_deleteuser', {'id': user.ID|e }) }}"> <button type="button" id='button{{ user.ID|e }}' onclick='DeleteUser(this.id)' class="btn btn-danger">Delete</button></td></a>
+    
+        </tr>
     {% endfor %}
-
-
-      
-    </tr>
- 
-
 
   </tbody>
 </table>
@@ -51,11 +47,7 @@
 
 function DeleteUser(id)
 {
-
-var rowId = document.getElementById(id).parentElement.parentElement.id; 
-
-
-    
+   document.getElementById(id).parentElement.parentElement.innerHTML='';  
 }
 
 </script>

@@ -30,4 +30,16 @@ class UserDeletionController extends AbstractController
 
 
 
+    public function deleteUser($id)
+
+    {
+    $em = $this->getDoctrine()->getManager();
+    $users = $em -> getRepository(User::class)->find($id);
+    $em -> remove($users);
+    $em -> flush();
+    return $this->redirectToroute('admin_deleteuser_def');
+    }
+
+
+
 }
