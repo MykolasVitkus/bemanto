@@ -25,6 +25,9 @@ class ChangePasswordController extends AbstractController
         $form = $this->createForm(PasswordChangeType::class);
         $form->handleRequest($request);
 
+        $msg = '';
+
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             $currentpw = $user->getPassword();
@@ -44,16 +47,17 @@ class ChangePasswordController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('home');
+            $msg = 'Success.';
             }
             else
             {
-                return $this->redirectToRoute($user->getPassword());
+                $msg = 'This is not your current password.';
             }
         }
 
         return $this->render('passwordchange/passwordchange.html.twig',[
             'changepasswordForm' => $form->createView(),
+            'displaymsg' => $msg,
         ]);
     }
 }
