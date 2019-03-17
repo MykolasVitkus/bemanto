@@ -11,25 +11,27 @@
 <div class="example-wrapper">
     <h1 style='text-align:center;padding-bottom: 5%'>User deletion panel</h1>
 </div>
- 
 
-<table class="table">
+<div>
+ <input style="width:10%; margin-left:1%" type="text" class="form-control" id="myInput" placeholder="Filter..">
+ <br/>
+</div> 
+
+<table class="table table-hover">
   <thead>
     <tr>
       <th style="width: 5%" scope="col"><b>ID</b></th>
       <th style="width: 10%" scope="col">Email</th>  
-      <th style="width: 5%" scope="col"></th>
-    
+      <th style="width: 5%" scope="col"></th>  
     </tr>
   </thead>
-  <tbody>
+  <tbody id="dataTable">
  
     {% for user in usersArray %}
       <tr id='{{ user.ID|e }}'>
         <td>{{ user.ID|e }}</td>
         <td>{{ user.Email|e }}</td>
-        <td>    <a href="{{ path('admin_deleteuser', {'id': user.ID|e }) }}"> <button type="button" id='button{{ user.ID|e }}' onclick='DeleteUser(this.id)' class="btn btn-danger">Delete</button></td></a>
-    
+        <td> <a href="{{ path('admin_deleteuser', {'id': user.ID|e }) }}"> <button type="button" id='button{{ user.ID|e }}' class="btn btn-danger">Delete</button></a></td>
         </tr>
     {% endfor %}
 
@@ -37,18 +39,26 @@
 </table>
 
 
-
-<style>
-
-
-</style>
-
 <script>
 
-function DeleteUser(id)
-{
-   document.getElementById(id).parentElement.parentElement.innerHTML='';  
-}
+function filterTable(event) {
+            var filter = event.target.value.toUpperCase();
+            var rows = document.querySelector("#dataTable").rows;
+
+            for (var i = 0; i < rows.length; i++) {
+                var firstCol = rows[i].cells[0].textContent.toUpperCase();
+                var secondCol = rows[i].cells[1].textContent.toUpperCase();
+                var thirdCol = rows[i].cells[2].textContent.toUpperCase();
+  
+                if (firstCol.indexOf(filter) > -1 || secondCol.indexOf(filter) > -1 || thirdCol.indexOf(filter) > -1 ) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+
+       document.querySelector('#myInput').addEventListener('keyup', filterTable, false);
 
 </script>
 
