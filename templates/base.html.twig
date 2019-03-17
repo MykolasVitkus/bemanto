@@ -23,11 +23,11 @@
         
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ '/events' }}>Events</a> </li>{% endif %}
+                        {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('events') }}>Events</a> </li>{% endif %}
                         {% if is_granted('ROLE_ADMIN') %}<li class="nav-item"> <a class="nav-link" href={{ '#' }}>Admin</a> </li>{% endif %}
-                        {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ '/logout' }}>Logout</a> </li>{% endif %}
-                        {% if is_granted('ROLE_USER') == false %}<li class="nav-item"> <a class="nav-link" href={{ '/login' }}>Login</a> </li>{% endif %}
-                        {% if is_granted('ROLE_USER') == false %}<li class="nav-item"> <a class="nav-link" href={{ '/register' }}>Register</a> </li>{% endif %}
+                        {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('logout') }}>Logout</a> </li>{% endif %}
+                        {% if is_granted('ROLE_USER') == false %}<li class="nav-item"> <a class="nav-link" href={{ path('login') }}>Login</a> </li>{% endif %}
+                        {% if is_granted('ROLE_USER') == false %}<li class="nav-item"> <a class="nav-link" href={{ path('register') }}>Register</a> </li>{% endif %}
                     </ul>
                 </div>
             </div>
