@@ -21,7 +21,7 @@ class UserDeletionController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $repository = $this->getDoctrine()->getRepository(User::class);
-        $userr = $repository->findAll();
+        $user = $repository->findAll();
 
         return $this->render('user_deletion/index.html.twig',[
             'usersArray' => $userr,
