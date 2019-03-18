@@ -5,17 +5,20 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Entity\Event;
 
-class HomeController extends AbstractController
+class EventController extends AbstractController
 {
     /**
-     * @Route("/home", name="home")
+     * @Route("/events", name="event")
      * @Security("is_granted('ROLE_USER')")
      */
     public function index()
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'Home',
+        $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
+        return $this->render('events/index.html.twig', [
+            'controller_name' => 'Events',
+            'events' => $events
         ]);
     }
 }
