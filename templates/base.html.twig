@@ -7,6 +7,7 @@
         <title>bemanto | {% block title %}{% endblock %}</title>
         
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         {% block stylesheets %}
             {#{{ encore_entry_link_tags('app') }}#}
         {% endblock %}
@@ -16,20 +17,38 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">    
             <div class="container">
-                <a class="navbar-brand" href="#">bemanto</a>
+                <a class="navbar-brand mr-5" href={{ path('home') }}>bemanto</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                 </button>
         
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav mr-auto">
                         {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('event') }}>Events</a> </li>{% endif %}
-                        {% if is_granted('ROLE_ADMIN') %}<li class="nav-item"> <a class="nav-link" href={{ '#' }}>Admin</a> </li>{% endif %}
-                        {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('logout') }}>Logout</a> </li>{% endif %}
-                        {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('app_changePw') }}>Change</a> </li>{% endif %}
                         {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('app_login') }}>Login</a> </li>{% endif %}
                         {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('app_register') }}>Register</a> </li>{% endif %}
                     </ul>
+
+                    {% if is_granted('ROLE_USER') %}
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown rounded-bottom">
+                                <a class="nav-link dropdown-toggle" href="#" id="navBarProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user mr-2"></i> Username
+                                </a>
+                                <div class="dropdown-menu mt-2" aria-labelledby="navBarProfileDropdown">
+                                    <a class="dropdown-item" href="#"><i class="fas fa-user-circle mr-2"></i> Profile</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-plus-circle mr-2"></i> Followed categories</a>
+                                    <a class="dropdown-item" href={{ path('app_userSettings') }}><i class="fas fa-key mr-2"></i> Settings</a>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-solar-panel mr-2"></i> Admin CP</a>
+                                    {% endif %}
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href={{ path('logout') }}><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+
                 </div>
             </div>
         </nav>
