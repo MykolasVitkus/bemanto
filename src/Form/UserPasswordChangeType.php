@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
-class PasswordChangeType extends AbstractType
+class UserPasswordChangeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Form\PasswordChangeType;
+use App\Form\UserPasswordChangeType;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +22,7 @@ class ChangePasswordController extends AbstractController
         $user= $this->get('security.token_storage')->getToken()->getUser();
 
 
-        $form = $this->createForm(PasswordChangeType::class);
+        $form = $this->createForm(UserPasswordChangeType::class);
         $form->handleRequest($request);
 
         $msg = '';
@@ -44,7 +44,6 @@ class ChangePasswordController extends AbstractController
                 )
             );
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
             $entityManager->flush();
 
             $msg = 'Success.';
