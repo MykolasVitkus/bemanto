@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ controller_name }}{% endblock %}
+{% block body %}
+    <style>
+        @media only screen and (max-width: 768px) {
+            #event {
+                height: 590px !important;
+            }
+        }
+    </style>
+    <div class="page bg-white">
+        <h1 class="jumbotron text-center bg-secondary text-light no-border" style="border-radius: 0 !important;">
+            {{ controller_name }}</h1>
+        {{ include('events/filter.html.twig') }}
+        <div class="album bg-light">
+            <div class="container">
+                <div class="row">
+                    {% for event in events %}
+                        <div class="col-md-4 bg-light pl-1 pr-1 pb-2" id="event" style="height: 510px;">
+                            <div class="card mb-r box-shadow pl-3 pr-3 h-100">
+                                <img alt="{{ event.title }}" class="w-100 pt-3 mb-2" src="images/{{ event.pictureid }}.jpg"/>
+                                <h2>
+                                    {{ event.title }}
+                                </h2>
+                                <p class="mb-0">
+                                    <i>
+                                        {{ event.category }}
+                                    </i>
+                                </p>
+                                <strong>
+                                    {{ event.date|date('Y-m-d H:i') }}
+                                </strong>
+                                <div class="wrapper" style="height: 120px; overflow: hidden; word-wrap: break-word;">
+                                    {{ event.description }}
+                                </div>
+                                <a>
+                                    <button class="btn btn-dark bottom" style="position: absolute; bottom: 15px;" type="button">Read more</button>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="/js/events.js"></script>
+{% endblock %}

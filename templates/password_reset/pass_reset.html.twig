@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
+{% block stylesheets %}
+
+<style>
+    .row
+    {
+        background-color: #f9f9f9;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container col-lg-6 mt-3">
+    <div class="row border rounded-lg shadow-sm">
+        <div class="col ">
+            <h1 class="mt-2">Forgot your password?</h1>
+            <p class="lead">If you forgot your account password, please enter your email address and we will send you a link to reset it.</p>
+
+            {% if errorTitle %}
+
+                <div class = "alert alert-{{ errorType }}">
+                    <strong>{{ errorTitle }}</strong> {{ errorMessage }}
+                </div>
+
+            {% endif %}
+
+            {{ form_start(email_form) }}
+            
+                {{ form_errors(email_form.email) }}
+                <div class="input-group col-lg-7 mb-3 ml-n3">
+                    {{ form_widget(email_form.email) }}
+                    
+                    <div class="input-group-append">
+                        {{ form_widget(email_form.submit) }}
+                    </div>
+                </div>
+
+            {{ form_end(email_form) }}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
