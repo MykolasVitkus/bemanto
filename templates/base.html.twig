@@ -26,8 +26,8 @@
                         {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('event') }}>Events</a> </li>{% endif %}
                         {% if is_granted('ROLE_ADMIN') %}<li class="nav-item"> <a class="nav-link" href={{ '#' }}>Admin</a> </li>{% endif %}
                         {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('logout') }}>Logout</a> </li>{% endif %}
-                        {% if is_granted('ROLE_USER') == false %}<li class="nav-item"> <a class="nav-link" href={{ path('app_login') }}>Login</a> </li>{% endif %}
-                        {% if is_granted('ROLE_USER') == false %}<li class="nav-item"> <a class="nav-link" href={{ path('app_register') }}>Register</a> </li>{% endif %}
+                        {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('app_login') }}>Login</a> </li>{% endif %}
+                        {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('app_register') }}>Register</a> </li>{% endif %}
                     </ul>
                 </div>
             </div>
