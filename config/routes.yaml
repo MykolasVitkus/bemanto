@@ -4,11 +4,4 @@
 logout:
     path: /logout
 
-admin_deleteuser:
-   path:   /admin/deletion/{id}
-   defaults: {_controller: App\Controller\UserDeletionController::deleteUser}
-   methods: [GET, POST]
-
-admin_deleteuser_def:
-   path:   /admin/deletion
    
