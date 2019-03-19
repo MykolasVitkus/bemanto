@@ -15,9 +15,9 @@
 
 ###> symfony/web-server-bundle ###
 /.web-server-pid
-###< symfony/web-server-bundle ###
-/.idea/
 
+/.idea/
+/.vscode/
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
