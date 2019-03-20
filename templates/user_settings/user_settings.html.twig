@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+
 {% block title %} {{ pageTitle }} {% endblock %}
 
 {% block stylesheets %}
@@ -7,6 +8,11 @@
     body
     {
         background-color: #FAF8F8;
+    }
+
+    .showInfo
+    {
+        display: none;
     }
 </style>
 
@@ -22,15 +28,23 @@
         </div>
     </div>
     <div class="row border border-top-0 rounded-bottom p-3">
-        <div class="col-sm-4">
-            <div class="row mb-2">Summary</div>
-            <div class="row mb-2">Change password</div>
-            <div class="row">Email address</div>
+        <div class="col-sm-3">
+            <div class="row mb-2" onclick="showBlock(1)"><i class="fas fa-eye fa-lg mr-3 mt-1"></i> Summary</div>
+            <div class="row mb-2" onclick="showBlock(2)"><i class="fas fa-key fa-lg mr-3 mt-1"></i> Password change</div>
+            <div class="row" onclick="showBlock(3)"><i class="fas fa-envelope fa-lg mr-3 mt-1"></i> Email address change</div>
         </div>
-        <div class="col border rounded-lg">
-            Some stuff goes here
+        <div class="col border rounded-lg ml-4">
+            <div id="information_block">pirmas</div>
+            <div id="information_block">asnrasjld</div>
+            <div id="information_block"> trecias</div>
         </div>
     </div>
 </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="\js\accountSettings.js"></script>
 
 {% endblock %}
