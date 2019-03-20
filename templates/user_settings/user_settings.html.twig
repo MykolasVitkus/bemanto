@@ -4,17 +4,7 @@
 
 {% block stylesheets %}
 
-<style>
-    body
-    {
-        background-color: #FAF8F8;
-    }
-
-    .showInfo
-    {
-        display: none;
-    }
-</style>
+    {{ encore_entry_link_tags('user_settings') }}
 
 {% endblock %}
 
@@ -23,20 +13,28 @@
 <div class="container col-sm-8 mt-5 bg-white">
     <div class="row border rounded-top p-2">
         <div class="col">
-            <big>Settings</big><br>
-            Manage your account settings
+            <big>Nustatymai</big><br>
+            Tvarkykite savo paskyros nustatymus
         </div>
     </div>
     <div class="row border border-top-0 rounded-bottom p-3">
-        <div class="col-sm-3">
-            <div class="row mb-2" onclick="showBlock(1)"><i class="fas fa-eye fa-lg mr-3 mt-1"></i> Summary</div>
-            <div class="row mb-2" onclick="showBlock(2)"><i class="fas fa-key fa-lg mr-3 mt-1"></i> Password change</div>
-            <div class="row" onclick="showBlock(3)"><i class="fas fa-envelope fa-lg mr-3 mt-1"></i> Email address change</div>
+        <div class="col-xs-12 col-md-4">
+            <ul class="ul-menu">
+                <li class="li-menu"><div id="menu-item" class="active"><i class="fas fa-eye fa-lg mr-3 mt-1"></i> Apžvalga</div></li>
+                <li class="li-menu"><div id="menu-item"><i class="fas fa-key fa-lg mr-3 mt-1"></i> Slaptažodžio keitimas</div></li>
+                <li class="li-menu"><div id="menu-item"><i class="fas fa-envelope fa-lg mr-3 mt-1"></i> El. pašto adreso keitimas</div></li>
+            </ul>
         </div>
-        <div class="col border rounded-lg ml-4">
-            <div id="information_block">pirmas</div>
-            <div id="information_block">asnrasjld</div>
-            <div id="information_block"> trecias</div>
+        <div class="col-xs-12 col-md-8 border rounded-lg">
+            <div id="info-block">
+                Pirmas blockas
+            </div>
+            <div id="info-block" class="hide">
+                Antras blokas
+            </div>
+            <div id="info-block" class="hide">
+                Trecias blokas
+            </div>
         </div>
     </div>
 </div>
@@ -45,6 +43,6 @@
 
 {% block javascripts %}
 
-    <script src="\js\accountSettings.js"></script>
+    {{ encore_entry_script_tags('account_settings') }}
 
 {% endblock %}

@@ -1,0 +1,31 @@
+body {
+    background-color: #f9f9f9;
+}
+
+.hide
+{
+    display: none;
+}
+
+.ul-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    cursor: default;
+}
+
+.li-menu div {
+    display: block;
+    text-decoration: none;
+    padding: 7px 7px 7px 7px;
+}
+
+.li-menu div.active {
+    background-color: #555;
+    color: white;
+}
+
+.li-menu div:hover:not(.active) {
+    background-color: #f9f9f9;
+}
+
