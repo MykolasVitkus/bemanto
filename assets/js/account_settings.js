@@ -1,5 +1,5 @@
 let infoBlocks = document.querySelectorAll('#info-block');
-let menuItems = document.querySelectorAll("#menu-item");
+let menuItems = document.querySelectorAll('#menu-item');
 
 menuItems.forEach((menuItem, index) => {
     menuItem.addEventListener(('click'), () => {
@@ -7,7 +7,8 @@ menuItems.forEach((menuItem, index) => {
     });
 })
 
-showBlock = (id) =>
+//showBlock = (id) =>
+function showBlock(id)
 {
     menuItems.forEach((menuItem) => {
         menuItem.classList.remove('active');
