@@ -18,7 +18,8 @@ class UserSettingsController extends AbstractController
     {
         return $this->render('user_settings/user_settings.html.twig', [
             'pageTitle' => 'Paskyros nustatymai',
-            'blockToShow' => 0
+            'blockToShow' => 0,
+            'blockTitle' => 'Paskyros apžvalga',
         ]);
     }
 
@@ -35,7 +36,7 @@ class UserSettingsController extends AbstractController
         $form->handleRequest($request);
 
         $msg = null;
-        $msgType = "success";
+        $wrongPassword = false;
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -57,16 +58,17 @@ class UserSettingsController extends AbstractController
             }
             else
             {
-                $msg = 'Neteisingai įvestas dabartinis slaptažodis!';
-                $msgType = "danger";
+                $wrongPassword = true;
             }
         }
+
         return $this->render('user_settings/user_settings.html.twig', [
             'pageTitle' => 'Paskyros nustatymai',
             'changePasswordForm' => $form->createView(),
             'errorMessage' => $msg,
-            'errorType' => $msgType,
-            'blockToShow' => 1
+            'blockToShow' => 1,
+            'blockTitle' => 'Slaptažodžio keitimas',
+            'wrongPassword' => $wrongPassword,
         ]);
     }
 
@@ -77,7 +79,8 @@ class UserSettingsController extends AbstractController
     {
         return $this->render('user_settings/user_settings.html.twig', [
             'pageTitle' => 'Paskyros nustatymai',
-            'blockToShow' => 2
+            'blockToShow' => 2,
+            'blockTitle' => 'El. pašto adreso keitimas',
         ]);
     }
 }

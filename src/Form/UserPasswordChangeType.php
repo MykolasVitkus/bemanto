@@ -35,7 +35,7 @@ class UserPasswordChangeType extends AbstractType
             ])
             ->add('newpw', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'Naujas slaptažodis nesutampa',
+                'invalid_message' => 'Slaptažodžiai nesutampa',
                 'options' => ['attr' => ['class' => 'form-control']],
                 'required' => true,
                 'first_options'  => ['label' => 'Naujas slaptažodis'],

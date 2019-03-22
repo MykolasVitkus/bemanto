@@ -10,9 +10,7 @@
 
 {% block body %}
 
-<script>showBlock(0);</script>
-
-<div class="container col-sm-8 mt-5 bg-white">
+<div class="container col-xs-12 col-md-10 mt-5 bg-white">
     <div class="row border rounded-top p-2">
         <div class="col">
             <big>Nustatymai</big><br>
@@ -20,87 +18,104 @@
         </div>
     </div>
     <div class="row border border-top-0 rounded-bottom p-3">
-        <div class="col-xs-12 col-md-4 mb-2">
+
+        {# Menu bar #}
+        <div class="col-xs-12 col-lg-3 mb-2">
             <ul class="ul-menu">
-                <li class="li-menu"><a href={{ path('app_userSettings') }}{# id="menu-item" #} {% if blockToShow == 0 %} class="active" {% endif %}><i class="fas fa-eye fa-lg mr-3 mt-1"></i> Apžvalga</a></li>
-                <li class="li-menu"><a href={{ path('app_changePassword') }}{# id="menu-item" #} {% if blockToShow == 1 %} class="active" {% endif %}><i class="fas fa-key fa-lg mr-3 mt-1"></i> Slaptažodžio keitimas</a></li>
-                <li class="li-menu"><a href={{ path('app_changeEmail') }}{# id="menu-item" #} {% if blockToShow == 2 %} class="active" {% endif %}><i class="fas fa-envelope fa-lg mr-3 mt-1"></i> El. pašto adreso keitimas</a></li>
+                <li class="li-menu"><a href={{ path('app_userSettings') }} {% if blockToShow == 0 %} class="active" {% endif %}><i class="fas fa-eye fa-lg mr-3 mt-1"></i> Apžvalga</a></li>
+                <li class="li-menu"><a href={{ path('app_changePassword') }} {% if blockToShow == 1 %} class="active" {% endif %}><i class="fas fa-key fa-lg mr-3 mt-1"></i> Slaptažodžio keitimas</a></li>
+                <li class="li-menu"><a href={{ path('app_changeEmail') }} {% if blockToShow == 2 %} class="active" {% endif %}><i class="fas fa-envelope fa-lg mr-3 mt-1"></i> El. pašto adreso keitimas</a></li>
             </ul>
         </div>
-        <div class="col-xs-12 col-md-8 border rounded-lg p-4">
+        <div class="col-xs-12 col-lg-9 border rounded-lg p-4">
 
-            {% if blockToShow == 0 %}
-
-                <div id="info-block">
-                    Pirmas blockas
+            {# Info block title #}
+            <div class="row">
+                <div class="col">
+                    <h2>{{ blockTitle }}</h2><hr>
                 </div>
-
-            {% elseif blockToShow == 1 %}
-
-                <div id="info-block">
-
-                    {% if errorMessage %}
-
-                        <div class="alert alert-{{ errorType }}">
-                            {{ errorMessage }}
-                        </div>
-
-                    {% endif %}
-
-                    {{ form_start(changePasswordForm) }}
-
-                        {{ form_row(changePasswordForm.currentpw) }}
-                        
-                        <div>
-                        {{ form_row(changePasswordForm.newpw.first) }}
-                        </div>
-                        {{ form_row(changePasswordForm.newpw.second) }}
-                        <p>
-                        <div class="text-center">
-                            <button class="btn btn-primary" type="submit">Keisti slaptažodį</button> 
-                        </div>
-
-                    {{ form_end(changePasswordForm) }}
-
-                </div>
-
-            {% elseif blockToShow == 2 %}
-
-                <div id="info-block">
-                    Trecias blokas
-                </div>
-
-            {% endif %}
-
-            {# <div id="info-block" {% if blockToShow != 0 %}class="hide"{% endif %}>
-                Pirmas blockas
             </div>
-            <div id="info-block" {% if blockToShow != 1 %}class="hide"{% endif %}>
-                {% if errorMessage %}
 
-                    <div class="alert alert-{{ errorType }}">
-                        {{ errorMessage }}
+            {# Info block content #}
+            <div class="row justify-content-center align-items-center mt-3">
+
+                {# Summary content #}
+                {% if blockToShow == 0 %}
+
+                    <div id="info-block" class="col-xs-12 col-md-10">
+                        <div class="row col-xs-8">
+                            <div class="col">
+                                <strong>El. pašto adresas</strong><br>
+                                test@test.com
+                            </div>
+                            <div class="col button-change pt-3 ">
+                                <a href={{ path('app_changeEmail') }}>Keisti</a>
+                            </div>
+                            
+                        </div>
+                        <hr>
+                        <div class="row col-xs-8">
+                            <div class="col">
+                                <strong>Slaptažodis</strong><br>
+                                ********
+                            </div>
+                            <div class="col button-change pt-3">
+                                <a href={{ path('app_changePassword') }}>Keisti</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                {# Password change #}
+                {% elseif blockToShow == 1 %}
+
+                    <div id="info-block" class="col-xs-12 col-md-5">
+
+                        {% if errorMessage %}
+
+                            <div class="alert alert-success">
+                                {{ errorMessage }}
+                            </div>
+
+                        {% endif %}
+
+                        {{ form_start(changePasswordForm) }}
+
+                            {{ form_row(changePasswordForm.currentpw) }}
+                            {% if wrongPassword %}
+                                <div class="form-error ml-4"> 
+                                    • Neteisingai įvestas esamas slaptažodis!
+                                </div>
+                            {% endif %}
+                            <br>
+
+                            {{ form_label(changePasswordForm.newpw.first) }}
+                            {{ form_widget(changePasswordForm.newpw.first) }}
+                            <br>
+                            
+                            {{ form_row(changePasswordForm.newpw.second) }}
+                            <div class="form-error"> 
+                                {{ form_errors(changePasswordForm.newpw.first) }}
+                            </div>
+
+                            <div class="text-center">
+                                <button class="btn btn-danger mt-4" type="submit">Keisti slaptažodį</button> 
+                            </div>
+
+                        {{ form_end(changePasswordForm) }}
+                   
+                    </div>
+
+                {# Email address change #}
+                {% elseif blockToShow == 2 %}
+
+                    <div id="info-block">
+                        Trecias blokas
                     </div>
 
                 {% endif %}
 
-                {{ form_start(changePasswordForm) }}
-
-                    {{ form_row(changePasswordForm.currentpw) }}
-                    
-                    <div>
-                    {{ form_row(changePasswordForm.newpw.first) }}
-                    </div>
-                    {{ form_row(changePasswordForm.newpw.second) }}
-                    <p>
-                    <div class="text-center">
-                        <button class="btn btn-primary" type="submit">Change Password</button> 
-                    </div>
-                {{ form_end(changePasswordForm) }}
             </div>
-            <div id="info-block" {% if blockToShow != 2 %}class="hide"{% endif %}>
-                Trecias blokas
-            </div> #}
         </div>
     </div>
 </div>
