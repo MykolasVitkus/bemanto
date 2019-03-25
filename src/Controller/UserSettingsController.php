@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Form\UserPasswordChangeType;
 use App\Form\EmailChangeType;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserSettingsController extends AbstractController
@@ -77,23 +78,45 @@ class UserSettingsController extends AbstractController
      */
     public function changeEmail(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-
         $form = $this->createForm(EmailChangeType::class);
         $form->handleRequest($request);
 
-        $successMessage = null;
+        $successMessage = false;
+        $wrongPassword = false;
+        $invalidEmail = false;
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $password = $user->getPassword();
-            $givenPassword = $form->get('password')->getData();
+            $givenEmail = $form->get('email')->getData();
+
+            $checkEmail = $this->getDoctrine()->getRepository(User::class)->findOneBy([
+                'email' => $givenEmail
+            ]);
+
+            if(isset($checkEmail))
+            {
+                $invalidEmail = true;
+            }
+            else
+            {
+                $user = $this->get('security.token_storage')->getToken()->getUser();
+                $currentPassword = $user->getPassword();
+                $givenPassword = $form->get('password')->getData();
+
+                if(password_verify($givenPassword, $currentPassword))
+                {
+                    $user->setEmail($givenEmail);
+                    $successMessage = true;
+                }
+                else $wrongPassword = true;
+            }
         }
 
         return $this->render('user_settings/user_settings.html.twig', [
             'pageTitle' => 'Paskyros nustatymai',
             'successMessage' => $successMessage,
+            'wrongPassword' => $wrongPassword,
+            'invalidEmail' => $invalidEmail,
             'emailChangeForm' => $form->createView(),
             'blockToShow' => 2,
             'blockTitle' => 'El. pašto adreso keitimas',

@@ -113,7 +113,8 @@
                         {% if successMessage %}
 
                             <div class="alert alert-success">
-                                Į dabartinį el. pašto adresą buvo išsiųstas laiškas su el. pašto adreso keitimo instrukcija
+                                Paskyros el. pašto adresas pakeistas!
+                                {# Į dabartinį el. pašto adresą buvo išsiųstas laiškas su el. pašto adreso keitimo instrukcija #}
                             </div>
 
                         {% endif %}
@@ -121,13 +122,20 @@
                         {{ form_start(emailChangeForm) }}
 
                             {{ form_row(emailChangeForm.email) }}
+                            {% if invalidEmail %}
+                                <div class="form-error ml-4"> 
+                                    • Vartotojas tokiu el. pašto adresu jau egzistuoja
+                                </div>
+                            {% endif %}
                             <br>
-                            
+
                             {{ form_label(emailChangeForm.password) }}
                             {{ form_widget(emailChangeForm.password) }}
-                            <div class="form-error"> 
-                                {{ form_errors(emailChangeForm.password) }}
-                            </div>
+                            {% if wrongPassword %}
+                                <div class="form-error ml-4"> 
+                                    • Neteisingai įvestas slaptažodis
+                                </div>
+                            {% endif %}
 
                             <div class="text-center">
                                 <button class="btn btn-danger mt-4" type="submit">Keisti</button> 
