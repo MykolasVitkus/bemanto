@@ -13,7 +13,7 @@
     <div class="container col-xs-12 col-md-10 mt-5 bg-white">
         <div class="row">
             <div class="col-xs-12 col-md-3 p-3 text-center border border-right-0 rounded-left">
-                <img src="\public\uploads\avatars\3ab8a545f258e526f51246c34ec51b79.png" alt="Profile avatar" class="rounded-circle" height="200" width="200" />
+                <img src="{{ asset('uploads/avatars/') ~ avatar }}" alt="Profile avatar" class="rounded-circle" height="200" width="200" />
                 <br><br>
                 {{ user.getEmail() }}
             </div>
