@@ -13,9 +13,13 @@
     <div class="container col-xs-12 col-md-10 mt-5 bg-white">
         <div class="row">
             <div class="col-xs-12 col-md-3 p-3 text-center border border-right-0 rounded-left">
-                <img src="{{ asset('uploads/avatars/') ~ avatar }}" alt="Profile avatar" class="rounded-circle" height="200" width="200" />
-                <br><br>
                 {{ user.getEmail() }}
+                <br><br>
+                <img src="{{ asset('uploads/avatars/') ~ avatar }}" alt="Profile avatar" class="rounded-circle" height="200" width="200" />
+                <br>
+                <div class="button-change">
+                    <a href="#">Keisti nuotrauką</a>
+                </div>
             </div>
             <div class="col-xs-12 col-md-9 p-3 border rounded-right">
                 Vartotojo vardas: Aleksas Makakas<br>

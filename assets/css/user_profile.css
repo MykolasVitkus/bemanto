@@ -1,3 +1,14 @@
 body {
     background-color: #f9f9f9;
 }
+
+.button-change a
+{
+    font-size: .8rem;
+    color: rgb(204, 2, 2);
+}
+
+.button-change a:hover
+{
+    color: rgb(204, 2, 2);
+}
