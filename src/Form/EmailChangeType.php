@@ -18,7 +18,7 @@ class EmailChangeType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'El. pašto adresas',
                 ],
-                'label' => 'Naujas el. paštas'
+                'label' => 'Naujas el. pašto adresas'
             ])
             ->add('password', PasswordType::class, [
                 'attr' => [

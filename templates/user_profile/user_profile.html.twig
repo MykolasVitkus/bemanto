@@ -9,8 +9,20 @@
 {% endblock %}
 
 {% block body %}
+    
+    {% if invalidUser %}
+        
+        <div class="container col-xs-12 col-md-10 mt-3">
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4 class="alert-heading">User 404!</h4>
+                Vartotojas, kurio bandėte ieškoti, nerastas. Buvote nukreiptas į savo paskyros profilio peržiūrą. 
+            </div>
+        </div>
 
-    <div class="container col-xs-12 col-md-10 mt-5 bg-white">
+    {% endif %}
+
+    <div class="container col-xs-12 col-md-10 bg-white {% if invalidUser %} mt-1 {% else %} mt-5 {% endif %}">
         <div class="row">
             <div class="col-xs-12 col-md-3 p-3 text-center border border-right-0 rounded-left">
                 {{ user.getEmail() }}

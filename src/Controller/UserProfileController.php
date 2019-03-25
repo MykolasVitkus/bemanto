@@ -18,10 +18,18 @@ class UserProfileController extends AbstractController
         ]);
         $avatar = '3ab8a545f258e526f51246c34ec51b79.png';
 
+        $invalidUser = false;
+        if(!isset($user))
+        {
+            $invalidUser = true;
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+        }
+
         return $this->render('user_profile/user_profile.html.twig', [
             'pageTitle' => 'Profilis',
             'user' => $user,
-            'avatar' => $avatar
+            'avatar' => $avatar,
+            'invalidUser' => $invalidUser,
         ]);
     }
 }
