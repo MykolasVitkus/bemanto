@@ -49,7 +49,7 @@
                                 test@test.com
                             </div>
                             <div class="col button-change pt-3 ">
-                                <a href={{ path('app_changeEmail') }}>Keisti</a>
+                                <a href='#'>Keisti</a>
                             </div>
                             
                         </div>
@@ -106,11 +106,35 @@
                    
                     </div>
 
-                {# Email address change #}
-                {% elseif blockToShow == 2 %}
+                {% elseif blockToShow == 2 %} 
 
-                    <div id="info-block">
-                        Trecias blokas
+                    <div id="info-block" class="col-xs-12 col-md-5">
+
+                        {% if successMessage %}
+
+                            <div class="alert alert-success">
+                                Į dabartinį el. pašto adresą buvo išsiųstas laiškas su el. pašto adreso keitimo instrukcija
+                            </div>
+
+                        {% endif %}
+
+                        {{ form_start(emailChangeForm) }}
+
+                            {{ form_row(emailChangeForm.email) }}
+                            <br>
+                            
+                            {{ form_label(emailChangeForm.password) }}
+                            {{ form_widget(emailChangeForm.password) }}
+                            <div class="form-error"> 
+                                {{ form_errors(emailChangeForm.password) }}
+                            </div>
+
+                            <div class="text-center">
+                                <button class="btn btn-danger mt-4" type="submit">Keisti</button> 
+                            </div>
+
+                        {{ form_end(emailChangeForm) }}
+                   
                     </div>
 
                 {% endif %}

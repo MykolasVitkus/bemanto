@@ -33,10 +33,10 @@
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navBarProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-user mr-2"></i> Username
+                                    <i class="fas fa-user mr-2"></i> {{ app.user.username }}
                                 </a>
                                 <div class="dropdown-menu mt-2" style="border-radius: 0 0 .25rem .25rem;" aria-labelledby="navBarProfileDropdown">
-                                    <a class="dropdown-item" href="#"><i class="fas fa-user-circle mr-2"></i> Profile</a>
+                                    <a class="dropdown-item" href={{ path('app_userProfile', { 'user': app.user.username }) }}><i class="fas fa-user-circle mr-2"></i> Profile</a>
                                     <a class="dropdown-item" href="#"><i class="fas fa-plus-circle mr-2"></i> Followed categories</a>
                                     <a class="dropdown-item" href={{ path('app_userSettings') }}><i class="fas fa-tools mr-2"></i> Settings</a>
                                     {% if is_granted('ROLE_ADMIN') %}
