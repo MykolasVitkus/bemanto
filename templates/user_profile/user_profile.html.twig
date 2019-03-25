@@ -2,10 +2,27 @@
 
 {% block title %} {{ pageTitle }} {% endblock %}
 
+{% block stylesheets %}
+
+    {{ encore_entry_link_tags('user_profile') }}
+
+{% endblock %}
+
 {% block body %}
 
-    <div class="container">
-
+    <div class="container col-xs-12 col-md-10 mt-5 bg-white">
+        <div class="row">
+            <div class="col-xs-12 col-md-3 p-3 text-center border border-right-0 rounded-left">
+                <img src="\public\uploads\avatars\3ab8a545f258e526f51246c34ec51b79.png" alt="Profile avatar" class="rounded-circle" height="200" width="200" />
+                <br><br>
+                {{ user.getEmail() }}
+            </div>
+            <div class="col-xs-12 col-md-9 p-3 border rounded-right">
+                Vartotojo vardas: Aleksas Makakas<br>
+                Užsiregistravo 2019-03-24<br>
+                Parašytų komentarų: 0
+            </div>
+        </div>
     </div>
 
 {% endblock %}

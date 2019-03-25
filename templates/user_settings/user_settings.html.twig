@@ -46,10 +46,10 @@
                         <div class="row col-xs-8">
                             <div class="col">
                                 <strong>El. pašto adresas</strong><br>
-                                test@test.com
+                                {{ app.user.username }}
                             </div>
                             <div class="col button-change pt-3 ">
-                                <a href='#'>Keisti</a>
+                                <a href={{ path('app_changeEmail') }}>Keisti</a>
                             </div>
                             
                         </div>
@@ -106,6 +106,7 @@
                    
                     </div>
 
+                {# Email address change #}
                 {% elseif blockToShow == 2 %} 
 
                     <div id="info-block" class="col-xs-12 col-md-5">

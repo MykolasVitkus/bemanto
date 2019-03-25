@@ -20,6 +20,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('account_settings', './assets/js/account_settings.js')
     .addStyleEntry('user_settings', './assets/css/user_settings.css')
+    .addStyleEntry('user_profile', './assets/css/user_profile.css')
     //.addEntry('page2', './assets/js/page2.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

@@ -105,7 +105,9 @@ class UserSettingsController extends AbstractController
 
                 if(password_verify($givenPassword, $currentPassword))
                 {
+                    $em = $this->getDoctrine()->getManager();
                     $user->setEmail($givenEmail);
+                    $em->flush();
                     $successMessage = true;
                 }
                 else $wrongPassword = true;

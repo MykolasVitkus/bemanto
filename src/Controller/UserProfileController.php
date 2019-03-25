@@ -4,16 +4,22 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\User;
 
 class UserProfileController extends AbstractController
 {
     /**
-     * @Route("/profile/{user}", name="app_userProfile")
+     * @Route("/profile/{userName}", name="app_userProfile")
      */
-    public function index($user)
+    public function index($userName)
     {
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
+            'email' => $userName
+        ]);
+
         return $this->render('user_profile/user_profile.html.twig', [
             'pageTitle' => 'Profilis',
+            'user' => $user
         ]);
     }
 }
