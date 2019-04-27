@@ -58,8 +58,8 @@ class MailConfirmController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
-            return $this->render('home/index.html.twig', [
-                'controller_name' => $msg,
+            return $this->render('email_confirm/email_confirm.html.twig', [
+                'msg' => $msg,
             ]);
     }
 }
