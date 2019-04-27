@@ -38,7 +38,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $verified;
+    private $verified=FALSE;
 
     public function getId(): ?int
     {
@@ -125,7 +125,7 @@ class User implements UserInterface
 
     public function setVerified(bool $verified): self
     {
-        $this->Verified = $verified;
+        $this->verified = $verified;
 
         return $this;
     }
