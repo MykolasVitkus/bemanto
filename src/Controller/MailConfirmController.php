@@ -48,14 +48,13 @@ class MailConfirmController extends AbstractController
             {
                 $user->setVerified(TRUE);
                 $msg = "You are now verified.";
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
             }
             else
             {
                 $msg = "Something went wrong.";
             }
-        
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->flush();
 
             return $this->render('email_confirm/email_confirm.html.twig', [
                 'msg' => $msg,
