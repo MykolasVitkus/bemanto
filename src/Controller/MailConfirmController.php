@@ -31,9 +31,8 @@ class MailConfirmController extends AbstractController
                     ->setTo($user->getEmail())
                     ->setBody(
                         $this->renderView(
-                            'password_reset/pass_reset_message.html.twig',
+                            'email_confirm/email_confirm_message.html.twig',
                             [
-                                'userEmail' => $user->getEmail(),
                                 'generatedUrl' => $generatedUrl ]
                         ),
                         'text/html'
