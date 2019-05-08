@@ -1,0 +1,50 @@
+body {
+    background-color: #f9f9f9;
+}
+
+::selection
+{
+    color: white;
+    background: #2a2a2a;
+}
+
+.ul-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    cursor: default;
+}
+
+.li-menu a {
+    display: block;
+    text-decoration: none;
+    padding: 7px 7px 7px 7px;
+    color: black;
+}
+
+.li-menu a.active {
+    background-color: #2a2a2a;
+    color: white;
+}
+
+.li-menu a:hover:not(.active) {
+    background-color: #f9f9f9;
+}
+
+.hide
+{
+    display: none;
+}
+
+.form-error
+{
+    list-style-type: none;
+    color: rgb(204, 2, 2);
+    font-size: .8rem;
+}
+
+.button-change a
+{
+    font-size: .8rem;
+    color: rgb(204, 2, 2);
+}

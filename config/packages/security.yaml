@@ -45,3 +45,4 @@ security:
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/changepw, roles: ROLE_USER }
+        - { path: ^/account_settings, roles: ROLE_USER }
