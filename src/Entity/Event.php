@@ -43,12 +43,6 @@ class Event
     private $location;
 
     /**
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $pictureID;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="event")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -118,11 +112,6 @@ class Event
         $this->location = $location;
 
         return $this;
-    }
-    
-    public function getPictureId(): ?int
-    {
-        return $this->pictureID;
     }
 
     public function getCategory(): ?Category

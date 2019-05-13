@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ event.title }}
+{% endblock %}
+{% block body %}
+    <style>
+        @media only screen and (max-width: 768px) {
+            #event {
+                height: 590px !important;
+            }
+        }
+    </style>
+    <div class="page bg-white">
+        <h1 class="jumbotron text-center bg-secondary text-light no-border">
+            {{ event.title }}</h1>
+        <div class="container">
+            <div class="row">
+                <!--<img alt="pictureTitle" class="w-100 pt-3 mb-2" src="images/pictureUrl.jpg"/>-->
+                <h2>
+                    {{ event.title }}
+                </h2>
+                <p class="mb-0">
+                    <i>
+                        {{ event.category }}
+                    </i>
+                </p>
+                <strong>
+                    {{ event.date|date('Y-m-d H:i') }}
+                </strong>
+                <div class="wrapper" style="height: 120px; overflow: hidden; word-wrap: break-word;">
+                    {{ event.description }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+{% endblock %}
