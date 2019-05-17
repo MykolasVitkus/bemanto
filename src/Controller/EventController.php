@@ -27,10 +27,6 @@ class EventController extends AbstractController
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function create() {
-        $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
-        return $this->render('events/create/index.html.twig', [
-            'controller_name' => 'Events Create',
-            'events' => $events
-        ]);
+        $form = $this->createForm
     }
 }
