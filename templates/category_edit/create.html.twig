@@ -15,13 +15,15 @@
             <div class="col col-xs-12 col-md-4">
                 <h3>Naujos kategorijos kūrimas</h3><br>
 
-                {% if errorTitle %}
+                {% for message in app.flashes('danger') %}
 
-                    <div class = "alert alert-{{ errorType }}">
-                        <strong>{{ errorTitle }}</strong> {{ errorMessage }}
+                    <div class="alert alert-danger">
+
+                        {{ message }}
+
                     </div>
 
-                {% endif %}
+                {% endfor %}
 
                 {{ form_start(create_form) }}
                 

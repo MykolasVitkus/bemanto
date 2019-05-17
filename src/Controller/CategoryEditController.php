@@ -43,10 +43,6 @@ class CategoryEditController extends AbstractController
 
         $form->handleRequest($request);
 
-        $errorMessage = "Kategorija tokia pavadinimu jau yra sukurta!";
-        $errorType = "danger";
-        $errorTitle = null;
-
         if($form->isSubmitted() && $form->isValid())
         {
             $searchCategory = $this->getDoctrine()->getRepository(Category::class)->findOneBy([
@@ -55,7 +51,7 @@ class CategoryEditController extends AbstractController
 
             if(isset($searchCategory))
             {
-                $errorTitle = "Klaida!";
+                $this->addFlash('danger', 'Kategorija tokiu pavadinimu jau yra sukurta!');
             }
             else
             {
@@ -71,9 +67,6 @@ class CategoryEditController extends AbstractController
 
         return $this->render('category_edit/create.html.twig', [
             'pageTitle' => 'Kategorijos kūrimas',
-            'errorTitle' => $errorTitle,
-            'errorMessage' => $errorMessage,
-            'errorType' => $errorType,
             'create_form' => $form->createView()
         ]);
     }
@@ -93,10 +86,6 @@ class CategoryEditController extends AbstractController
 
         $form->handleRequest($request);
 
-        $errorMessage = "Kategorija tokia pavadinimu jau yra sukurta!";
-        $errorType = "danger";
-        $errorTitle = null;
-
         if($form->isSubmitted() && $form->isValid())
         {
             $searchCategory = $this->getDoctrine()->getRepository(Category::class)->findOneBy([
@@ -105,7 +94,7 @@ class CategoryEditController extends AbstractController
 
             if(isset($searchCategory))
             {
-                $errorTitle = "Klaida!";
+                $this->addFlash('danger', 'Kategorija tokiu pavadinimu jau yra sukurta!');
             }
             else
             {
@@ -121,9 +110,6 @@ class CategoryEditController extends AbstractController
 
         return $this->render('category_edit/edit.html.twig', [
             'pageTitle' => 'Kategorijos redagavimas',
-            'errorTitle' => $errorTitle,
-            'errorMessage' => $errorMessage,
-            'errorType' => $errorType,
             'edit_form' => $form->createView()
         ]);
     }
