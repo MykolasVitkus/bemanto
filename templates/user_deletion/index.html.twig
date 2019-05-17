@@ -12,10 +12,11 @@
     <h1 style='text-align:center;padding-bottom: 5%'>User deletion panel</h1>
 </div>
 
-<div>
- <input style="width:10%; margin-left:1%" type="text" class="form-control" id="myInput" placeholder="Filter..">
- <br/>
-</div> 
+{# total items count #}
+<div class="count">
+   <h4>Users count: {{ pagination.getTotalItemCount }}</h4>
+   </br>
+</div>
 
 <table class="table table-hover">
   <thead>
@@ -25,9 +26,9 @@
       <th style="width: 5%" scope="col"></th>  
     </tr>
   </thead>
-  <tbody id="dataTable">
+  <tbody id="data-container">
  
-    {% for user in usersArray %}
+    {% for user in pagination %}
       <tr id='{{ user.ID|e }}'>
         <td>{{ user.ID|e }}</td>
         <td>{{ user.Email|e }}</td>
@@ -38,8 +39,9 @@
   </tbody>
 </table>
 
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>
+
 {% endblock %}
 
-{% block javascripts %}
-   <script src="\js\userDeletion.js"></script>
-{% endblock %}
