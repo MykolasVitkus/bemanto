@@ -26,7 +26,7 @@ class UserDeletionController extends AbstractController
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            1 /*limit per page*/
+            25 /*limit per page*/
         );
 
         // parameters to template
