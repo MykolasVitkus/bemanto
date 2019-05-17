@@ -13,15 +13,15 @@ class SubscriptionsController extends AbstractController
      */
     public function list()
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $repository = $this->getDoctrine()->getRepository(Category::class);
         $allCategories = $repository->findAll();
         $categories = [];
 
-        foreach($allCategories as $category)
-        {
-            array_push($categories, $category);
+        foreach ($allCategories as $category) {
+            array_push($categories, ["category" => $category, "isSub" => $user->isSubscribedCategory($category)]);
         }
-
+    
         return $this->render('subscriptions/index.html.twig', [
             'pageTitle' => 'Sekamos kategorijos',
             'categoriesArray' => $categories
@@ -29,17 +29,40 @@ class SubscriptionsController extends AbstractController
     }
 
     /**
-     * @Route("/category_subscription/{id}", name="category_subscription")
+     * @Route("/category_subscribe/{id}", name="category_subscribe")
      */
     public function subscribe($id)
     {
+
         $entityManager = $this->getDoctrine()->getManager();
-        $category = $entityManager->getRepository(Category::class)->find($id);
-        $entityManager->remove($category);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy([
+            'id' => $id
+        ]);
+
+        $user->addSubscribedCategory($category);
         $entityManager->flush();
+
 
         return $this->redirectToRoute('subscriptions');
     }
 
+    /**
+     * @Route("/category_unsubscribe/{id}", name="category_unsubscribe")
+     */
+    public function unsubscribe($id)
+    {
 
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy([
+            'id' => $id
+        ]);
+
+        $user->removeSubscribedCategory($category);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('subscriptions');
+    }
 }

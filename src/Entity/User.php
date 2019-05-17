@@ -167,4 +167,14 @@ class User implements UserInterface
 
         return $this;
     }
+
+public function isSubscribedCategory(Category $subscribedCategory)
+{
+    if ($this->subscribedCategories->contains($subscribedCategory))
+    {
+        return true;
+    }
+    else return false;
+}
+
 }

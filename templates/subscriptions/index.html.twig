@@ -18,10 +18,14 @@
                     </thead>
                     <tbody>
                         
-                        {% for category in categoriesArray %}
+                        {% for cat in categoriesArray %}
                             <tr>                             
-                                <td>{{ category.name }}</td>
-                                <td><a href="{{ path('category_subscription', { 'id' : category.id }) }}"><button type="button" class="btn btn-success"><i class="fas fa-plus mr-1"></i> Prenumeruoti</button><a>
+                                <td>{{ cat.category.name }}</td>
+                                {% if cat.isSub == true %}
+                                    <td><a href="{{ path('category_unsubscribe', { 'id' : cat.category.id }) }}"><button type="button" class="btn btn-danger"><i class="fas fa-minus"></i> </button><a>        
+                                {% else %}
+                                    <td><a href="{{ path('category_subscribe', { 'id' : cat.category.id }) }}"><button type="button" class="btn btn-success"><i class="fas fa-plus"></i> </button><a>
+                              {% endif %}
                             <tr>
                         {% endfor %}
                         
