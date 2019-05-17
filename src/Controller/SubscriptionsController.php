@@ -33,7 +33,6 @@ class SubscriptionsController extends AbstractController
      */
     public function subscribe($id)
     {
-
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy([
@@ -43,7 +42,6 @@ class SubscriptionsController extends AbstractController
         $user->addSubscribedCategory($category);
         $entityManager->flush();
 
-
         return $this->redirectToRoute('subscriptions');
     }
 
@@ -52,7 +50,6 @@ class SubscriptionsController extends AbstractController
      */
     public function unsubscribe($id)
     {
-
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy([
@@ -61,7 +58,6 @@ class SubscriptionsController extends AbstractController
 
         $user->removeSubscribedCategory($category);
         $entityManager->flush();
-
 
         return $this->redirectToRoute('subscriptions');
     }
