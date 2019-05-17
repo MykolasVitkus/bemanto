@@ -9,25 +9,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Debug\Debug;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 
 class UserDeletionController extends AbstractController
 {
+    
     /**
      * @Route("/admin/deletion", name="user_deletion")
      */
-
-
-    public function index(): Response
+    public function listAction(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $repository = $this->getDoctrine()->getRepository(User::class);
-        $user = $repository->findAll();
+        $dql   = "SELECT a FROM App:User a WHERE a.roles NOT LIKE '%ROLE_ADMIN%' ";
+        $query = $em->createQuery($dql);
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            25 /*limit per page*/
+        );
 
+        // parameters to template
         return $this->render('user_deletion/index.html.twig', [
-            'usersArray' => $user,
+            'pagination' => $pagination
         ]);
     }
-
 
     /**
      * @Route("/admin/deletion/{id}", name="admin_deleteuser")
