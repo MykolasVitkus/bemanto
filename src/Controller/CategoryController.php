@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\CategoryCreateType;
 use App\Entity\Category;
 
-class CategoryEditController extends AbstractController
+class CategoryController extends AbstractController
 {
     /**
      * @Route("/admin/categories", name="categories")
      */
-    public function index()
+    public function list()
     {
         $repository = $this->getDoctrine()->getRepository(Category::class);
         $allCategories = $repository->findAll();
