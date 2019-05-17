@@ -133,8 +133,11 @@ class CategoryEditController extends AbstractController
      */
     public function delete($id)
     {
-        return $this->render('category_edit/index.html.twig', [
-            'pageTitle' => 'Kategorijos šalinimas',
-        ]);
+        $entityManager = $this->getDoctrine()->getManager();
+        $category = $entityManager->getRepository(Category::class)->find($id);
+        $entityManager->remove($category);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('categories');
     }
 }
