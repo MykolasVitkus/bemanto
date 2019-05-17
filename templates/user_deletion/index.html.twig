@@ -9,12 +9,12 @@
 </style>
 
 <div class="example-wrapper">
-    <h1 style='text-align:center;padding-bottom: 5%'>User deletion panel</h1>
+    <h1 style='text-align:center;padding-bottom: 5%'>Vartotojų šalinimas</h1>
 </div>
 
 {# total items count #}
 <div class="count">
-   <h4>Users count: {{ pagination.getTotalItemCount }}</h4>
+   <h4>Vartotojų kiekis: {{ pagination.getTotalItemCount }}</h4>
    </br>
 </div>
 
@@ -22,7 +22,7 @@
   <thead>
     <tr>
       <th style="width: 5%" scope="col"><b>ID</b></th>
-      <th style="width: 10%" scope="col">Email</th>  
+      <th style="width: 10%" scope="col">El. paštas</th>  
       <th style="width: 5%" scope="col"></th>  
     </tr>
   </thead>
@@ -32,7 +32,7 @@
       <tr id='{{ user.ID|e }}'>
         <td>{{ user.ID|e }}</td>
         <td>{{ user.Email|e }}</td>
-        <td> <a href="{{ path('admin_deleteuser', {'id': user.ID|e }) }}"> <button type="button" id='button{{ user.ID|e }}' class="btn btn-danger">Delete</button></a></td>
+        <td> <a href="{{ path('admin_deleteuser', {'id': user.ID|e }) }}"> <button type="button" id='button{{ user.ID|e }}' class="btn btn-danger">Ištrinti</button></a></td>
         </tr>
     {% endfor %}
 
