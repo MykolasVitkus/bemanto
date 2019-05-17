@@ -50,7 +50,7 @@ class CategoryEditController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $searchCategory = $this->getDoctrine()->getRepository(Category::class)->findOneBy([
-                'name' => $form->get('title')->getData()
+                'name' => $form->get('name')->getData()
             ]);
 
             if(isset($searchCategory))
@@ -59,7 +59,7 @@ class CategoryEditController extends AbstractController
             }
             else
             {
-                $category->setName($form->get('title')->getData());
+                $category->setName($form->get('name')->getData());
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($category);
@@ -75,6 +75,66 @@ class CategoryEditController extends AbstractController
             'errorMessage' => $errorMessage,
             'errorType' => $errorType,
             'create_form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/category_edit/{id}", name="category_edit")
+     */
+    public function edit(Request $request, $id)
+    {
+        $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy([
+            'id' => $id
+        ]);
+
+        $form = $this->createForm(CategoryCreateType::class, $category, [
+            'action' => $this->generateUrl('category_edit', [ 'id' => $id ])
+        ]);
+
+        $form->handleRequest($request);
+
+        $errorMessage = "Kategorija tokia pavadinimu jau yra sukurta!";
+        $errorType = "danger";
+        $errorTitle = null;
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $searchCategory = $this->getDoctrine()->getRepository(Category::class)->findOneBy([
+                'name' => $form->get('name')->getData()
+            ]);
+
+            if(isset($searchCategory))
+            {
+                $errorTitle = "Klaida!";
+            }
+            else
+            {
+                $category->setName($form->get('name')->getData());
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+
+                return $this->redirectToRoute('categories');
+            }
+        }
+
+
+        return $this->render('category_edit/edit.html.twig', [
+            'pageTitle' => 'Kategorijos redagavimas',
+            'errorTitle' => $errorTitle,
+            'errorMessage' => $errorMessage,
+            'errorType' => $errorType,
+            'edit_form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/category_delete/{id}", name="category_delete")
+     */
+    public function delete($id)
+    {
+        return $this->render('category_edit/index.html.twig', [
+            'pageTitle' => 'Kategorijos šalinimas',
         ]);
     }
 }

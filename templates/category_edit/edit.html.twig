@@ -13,7 +13,7 @@
     <div style="align-center" class="container col-xs-12 col-md-10 mt-5 bg-white">
         <div class="row col-xs-12 col-md-8">
             <div class="col justify-content-center align-items-center">
-                <h2>Naujos kategorijos kūrimas</h2><br>
+                <h2>Kategorijos redagavimas</h2><br>
 
                 {% if errorTitle %}
 
@@ -23,16 +23,16 @@
 
                 {% endif %}
 
-                {{ form_start(create_form) }}
+                {{ form_start(edit_form) }}
                 
-                    {{ form_errors(create_form.name) }}
-                    {{ form_widget(create_form.name) }}
+                    {{ form_errors(edit_form.name) }}
+                    {{ form_widget(edit_form.name) }}
 
                     <div class="text-center">
-                        <button class="btn btn-success mt-4" type="submit">Sukurti kategoriją</button> 
+                        <button class="btn btn-success mt-4" type="submit">Redaguoti kategoriją</button> 
                     </div>
 
-                {{ form_end(create_form) }}
+                {{ form_end(edit_form) }}
             </div>
         </div>
     </div>
