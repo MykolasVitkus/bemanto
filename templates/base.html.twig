@@ -24,9 +24,9 @@
         
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav mr-auto">
-                        {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('event') }}>Events</a> </li>{% endif %}
-                        {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('app_login') }}>Login</a> </li>{% endif %}
-                        {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('app_register') }}>Register</a> </li>{% endif %}
+                        {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('event') }}>Renginiai</a> </li>{% endif %}
+                        {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('app_login') }}>Prisijungti</a> </li>{% endif %}
+                        {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('app_register') }}>Registruotis</a> </li>{% endif %}
                     </ul>
 
                     {% if is_granted('ROLE_USER') %}
@@ -36,15 +36,16 @@
                                     <i class="fas fa-user mr-2"></i> {{ app.user.username }}
                                 </a>
                                 <div class="dropdown-menu mt-2" style="border-radius: 0 0 .25rem .25rem;" aria-labelledby="navBarProfileDropdown">
-                                    <a class="dropdown-item" href={{ path('app_userProfile', { 'userName': app.user.username }) }}><i class="fas fa-user-circle mr-2"></i> Profile</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-plus-circle mr-2"></i> Followed categories</a>
-                                    <a class="dropdown-item" href={{ path('app_userSettings') }}><i class="fas fa-tools mr-2"></i> Settings</a>
+                                    <a class="dropdown-item" href={{ path('app_userProfile', { 'userName': app.user.username }) }}><i class="fas fa-user-circle mr-2"></i> Profilis</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-plus-circle mr-2"></i> Sekamos kategorijos</a>
+                                    <a class="dropdown-item" href={{ path('app_userSettings') }}><i class="fas fa-tools mr-2"></i> Nustatymai</a>
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#"><i class="fas fa-solar-panel mr-2"></i> Admin CP</a>
+                                        <a class="dropdown-item" href="{{ path('user_deletion') }}"><i class="fas fa-users mr-2"></i> Vartotojai</a>
+                                        <a class="dropdown-item" href="{{ path('categories') }}"><i class="fas fa-tags mr-2"></i> Kategorijos</a>
                                     {% endif %}
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href={{ path('logout') }}><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
+                                    <a class="dropdown-item" href={{ path('logout') }}><i class="fas fa-sign-out-alt mr-2"></i> Atsijungti</a>
                             </li>
                         </ul>
                     {% endif %}

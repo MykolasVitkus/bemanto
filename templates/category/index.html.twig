@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
+{% block stylesheets %}
+
+    {# {{ encore_entry_link_tags('user_settings') }} #}
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="container col-xs-12 col-md-10 mt-5 bg-white">
+        <div class="row">
+            <div class="col col-xs-6">
+                
+                <a href="{{ path('category_create') }}"><button type="button" class="btn btn-success"><i class="fas fa-plus mr-2"></i> Nauja kategorija</button><a>
+                
+                <table style="max-width:50vh" class="table mt-3">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Pavadinimas</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for category in categoriesArray %}
+                            <tr>
+                                <td>{{ category.id }}</td>
+                                <td>{{ category.name }}</td>
+                                <td><a href="{{ path('category_edit', { 'id' : category.id }) }}"><button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button><a>
+                                <a href="{{ path('category_delete', { 'id' : category.id }) }}"><button type="button" class="btn btn-success"><i class="fas fa-trash-alt"></i></button><a></td>
+                            <tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                <table>
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {# {{ encore_entry_script_tags('account_settings') }} #}
+
+{% endblock %}
