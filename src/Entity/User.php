@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,6 +41,16 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $verified=FALSE;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="users")
+     */
+    private $subscribedCategories;
+
+    public function __construct()
+    {
+        $this->subscribedCategories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -126,6 +138,32 @@ class User implements UserInterface
     public function setVerified(bool $verified): self
     {
         $this->verified = $verified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getSubscribedCategories(): Collection
+    {
+        return $this->subscribedCategories;
+    }
+
+    public function addSubscribedCategory(Category $subscribedCategory): self
+    {
+        if (!$this->subscribedCategories->contains($subscribedCategory)) {
+            $this->subscribedCategories[] = $subscribedCategory;
+        }
+
+        return $this;
+    }
+
+    public function removeSubscribedCategory(Category $subscribedCategory): self
+    {
+        if ($this->subscribedCategories->contains($subscribedCategory)) {
+            $this->subscribedCategories->removeElement($subscribedCategory);
+        }
 
         return $this;
     }

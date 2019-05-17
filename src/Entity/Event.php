@@ -27,11 +27,6 @@ class Event
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $category;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $date;
@@ -48,10 +43,10 @@ class Event
     private $location;
 
     /**
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="event")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $pictureID;
+    private $category;
     
 
     public function getId(): ?int
@@ -79,18 +74,6 @@ class Event
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
 
         return $this;
     }
@@ -130,10 +113,17 @@ class Event
 
         return $this;
     }
-    
-    public function getPictureId(): ?int
+
+    public function getCategory(): ?Category
     {
-        return $this->pictureID;
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
     }
 
 }

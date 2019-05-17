@@ -21,4 +21,21 @@ class EventController extends AbstractController
             'events' => $events
         ]);
     }
+
+    /**
+     * @Route("/events/{id}", name="view_event")
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function viewEvent($id)
+    {
+        $event = $this->getDoctrine()->getRepository(Event::class)->findOneBy(['id' => $id]);
+        if (!$event) {
+            throw $this->createNotFoundException(
+                'There is no events with the following id: ' . $id
+            );
+        }
+        return $this->render('events/view.html.twig', [
+            'event' => $event
+        ]);
+    }
 }
