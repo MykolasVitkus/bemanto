@@ -1,6 +1,25 @@
-
 {% block body %}
-    <div class="text-center pb-4">
-        FILTER
+    {{ form_start(form, { 'attr': {'class': 'container form pb-4' }}) }}
+    {{ form_widget(form.title) }}
+    {{ form_widget(form.category) }}
+    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+        {{ form_widget(form.dateFrom) }}
+        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        </div>
     </div>
+    <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+        {{ form_widget(form.dateTo) }}
+        <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        </div>
+    </div>
+    <div class="input-group">
+        {{ form_widget(form.priceFrom) }}
+    </div>
+    <div class="input-group">
+        {{ form_widget(form.priceTo) }}
+    </div>
+    {{ form_widget(form.submit) }}
+    {{ form_end(form) }}
 {% endblock %}
