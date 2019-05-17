@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sekamos kategorijos{% endblock %}
+
+{% block body %}
+
+    <div class="container col-xs-12 col-md-10 mt-5 bg-white">
+        <div class="row">
+            <div class="col col-xs-6">
+                
+                <table style="max-width:50vh" class="table mt-3">
+                    <thead>
+                        <tr>
+                            
+                            <th>Pavadinimas</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for category in categoriesArray %}
+                            <tr>                             
+                                <td>{{ category.name }}</td>
+                                <td><a href="{{ path('category_subscription', { 'id' : category.id }) }}"><button type="button" class="btn btn-success"><i class="fas fa-plus mr-1"></i> Prenumeruoti</button><a>
+                            <tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                <table>
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
