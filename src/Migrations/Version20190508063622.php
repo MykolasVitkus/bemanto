@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190314124052 extends AbstractMigration
+final class Version20190508063622 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,7 @@ final class Version20190314124052 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
 
-        $this->addSql('ALTER TABLE event ADD COLUMN picture_id INTEGER NOT NULL');
+        $this->addSql('ALTER TABLE user ADD COLUMN verified BOOLEAN NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -30,10 +30,13 @@ final class Version20190314124052 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
 
-        $this->addSql('CREATE TEMPORARY TABLE __temp__event AS SELECT id, title, description, category, date, price, location FROM event');
-        $this->addSql('DROP TABLE event');
-        $this->addSql('CREATE TABLE event (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, title VARCHAR(255) NOT NULL, description CLOB DEFAULT NULL, category VARCHAR(255) NOT NULL, date DATETIME NOT NULL, price DOUBLE PRECISION DEFAULT NULL, location VARCHAR(255) NOT NULL)');
-        $this->addSql('INSERT INTO event (id, title, description, category, date, price, location) SELECT id, title, description, category, date, price, location FROM __temp__event');
-        $this->addSql('DROP TABLE __temp__event');
+        $this->addSql('DROP INDEX UNIQ_8D93D649E7927C74');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__user AS SELECT id, email, roles, password FROM user');
+        $this->addSql('DROP TABLE user');
+        $this->addSql('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
+        , password VARCHAR(255) NOT NULL)');
+        $this->addSql('INSERT INTO user (id, email, roles, password) SELECT id, email, roles, password FROM __temp__user');
+        $this->addSql('DROP TABLE __temp__user');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON user (email)');
     }
 }
