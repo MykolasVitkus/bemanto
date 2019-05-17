@@ -21,10 +21,19 @@ class UserDeletionController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $repository = $this->getDoctrine()->getRepository(User::class);
-        $user = $repository->findAll();
+        $allUsers = $repository->findAll();
+        $users = [];
+
+        foreach($allUsers as $user)
+        {
+            if(!in_array("ROLE_ADMIN",$user->getRoles()))
+            {
+              array_push($users,$user);
+            }
+        }
 
         return $this->render('user_deletion/index.html.twig', [
-            'usersArray' => $user,
+            'usersArray' => $users,
         ]);
     }
 
