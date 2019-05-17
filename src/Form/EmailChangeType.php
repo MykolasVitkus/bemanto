@@ -2,14 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class PasswordResetType extends AbstractType
+class EmailChangeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -17,13 +16,17 @@ class PasswordResetType extends AbstractType
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'El. pašto adresas'
-                ]
+                    'placeholder' => 'El. pašto adresas',
+                ],
+                'label' => 'Naujas el. pašto adresas'
             ])
-            ->add('submit', SubmitType::class, [
+            ->add('password', PasswordType::class, [
                 'attr' => [
-                    'class' => 'btn btn-success'
-                ]
+                    'class' => 'form-control',
+                    'placeholder' => 'Slaptažodis',
+                ],
+                'label' => 'Paskyros slaptažodis',
+                'invalid_message' => 'Neteisingas slaptažodis'
             ])
         ;
     }
@@ -31,7 +34,7 @@ class PasswordResetType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            /* 'data_class' => User::class, */
         ]);
     }
 }

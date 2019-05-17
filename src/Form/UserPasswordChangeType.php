@@ -20,14 +20,14 @@ class UserPasswordChangeType extends AbstractType
             ->add('currentpw', PasswordType::class, [
                 'attr'=> array('class'=>'form-control'),
                 'required' => true,
-                'label' => 'Current password',
+                'label' => 'Dabartinis slaptažodis',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Įveskite slaptažodį',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Jūsų slaptažodį turi sudaryti bent {{ limit }} simboliai',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
@@ -35,19 +35,19 @@ class UserPasswordChangeType extends AbstractType
             ])
             ->add('newpw', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Slaptažodžiai nesutampa',
                 'options' => ['attr' => ['class' => 'form-control']],
                 'required' => true,
-                'first_options'  => ['label' => 'New password'],
-                'second_options' => ['label' => 'Repeat new password'],
+                'first_options'  => ['label' => 'Naujas slaptažodis'],
+                'second_options' => ['label' => 'Pakartokite naują slaptažodį'],
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Įveskite slaptažodį',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Jūsų slaptažodį turi sudaryti bent {{ limit }} simboliai',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
