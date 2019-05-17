@@ -24,7 +24,7 @@ class CategoryController extends AbstractController
             array_push($categories, $category);
         }
 
-        return $this->render('category_edit/index.html.twig', [
+        return $this->render('category/index.html.twig', [
             'pageTitle' => 'Kategorijos',
             'categoriesArray' => $categories
         ]);
@@ -65,7 +65,7 @@ class CategoryController extends AbstractController
             }
         }
 
-        return $this->render('category_edit/create.html.twig', [
+        return $this->render('category/create.html.twig', [
             'pageTitle' => 'Kategorijos kūrimas',
             'create_form' => $form->createView()
         ]);
@@ -108,7 +108,7 @@ class CategoryController extends AbstractController
         }
 
 
-        return $this->render('category_edit/edit.html.twig', [
+        return $this->render('category/edit.html.twig', [
             'pageTitle' => 'Kategorijos redagavimas',
             'edit_form' => $form->createView()
         ]);
