@@ -16,25 +16,6 @@ use Knp\Component\Pager\PaginatorInterface;
 class UserDeletionController extends AbstractController
 {
     
-    public function index(): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $repository = $this->getDoctrine()->getRepository(User::class);
-        $allUsers = $repository->findAll();
-        $users = [];
-
-        foreach ($allUsers as $user) {
-            if (!in_array("ROLE_ADMIN", $user->getRoles())) {
-                array_push($users, $user);
-            }
-        }
-
-        return $this->render('user_deletion/index.html.twig', [
-            'usersArray' => $users,
-        ]);
-    }
-
-
     /**
      * @Route("/admin/deletion", name="user_deletion")
      */
@@ -45,7 +26,7 @@ class UserDeletionController extends AbstractController
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            25 /*limit per page*/
+            1 /*limit per page*/
         );
 
         // parameters to template
@@ -53,9 +34,6 @@ class UserDeletionController extends AbstractController
             'pagination' => $pagination
         ]);
     }
-
-
-
 
     /**
      * @Route("/admin/deletion/{id}", name="admin_deleteuser")
