@@ -47,6 +47,11 @@ class User implements UserInterface
      */
     private $subscribedCategories;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $registerDate;
+
     public function __construct()
     {
         $this->subscribedCategories = new ArrayCollection();
@@ -173,5 +178,17 @@ class User implements UserInterface
         if ($this->subscribedCategories->contains($subscribedCategory)) {
             return true;
         } else return false;
+    }
+
+    public function getRegisterDate(): ?\DateTimeInterface
+    {
+        return $this->registerDate;
+    }
+
+    public function setRegisterDate(?\DateTimeInterface $registerDate): self
+    {
+        $this->registerDate = $registerDate;
+
+        return $this;
     }
 }
