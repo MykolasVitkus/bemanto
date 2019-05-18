@@ -70,55 +70,6 @@ class EventController extends AbstractController
             'create_form' => $form->createView()
         ]);
     }
-
-    /**
-     * @Route("/events/event_edit/{id}", name="event_edit")
-     */
-    public function edit(Request $request, $id)
-    {
-        $event = $this->getDoctrine()->getRepository(Event::class)->findOneBy([
-            'id' => $id
-        ]);
-
-        $form = $this->createForm(EventCreateType::class, $event, [
-            'action' => $this->generateUrl('event_edit', [ 'id' => $id ])
-        ]);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $searchEvent = $this->getDoctrine()->getRepository(Event::class)->findOneBy([
-                'title' => $form->get('title')->getData()
-            ]);
-
-            if(isset($searchEvent))
-            {
-                $this->addFlash('danger', 'Renginys tokiu pavadinimu jau yra sukurtas!');
-            }
-            else
-            {
-                $event->setTitle($form->get('title')->getData());
-                $event->setDescription($form->get('description')->getData());
-                $event->setDate($form->get('date')->getData());
-                $event->setPrice($form->get('price')->getData());
-                $event->setLocation($form->get('location')->getData());
-                $event->setCategory($form->get('category')->getData());
-                
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->flush();
-
-                return $this->redirectToRoute('event');
-            }
-        }
-
-
-        return $this->render('events/edit.html.twig', [
-            'pageTitle' => 'Renginio redagavimas',
-            'edit_form' => $form->createView()
-        ]);
-    }
     /** 
      * @Route("/events/{id}", name="view_event")
      * @Security("is_granted('ROLE_USER')")
