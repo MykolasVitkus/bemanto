@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use ReCaptcha\ReCaptcha;
 
 class RegistrationController extends AbstractController
 {
@@ -18,10 +19,23 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
+        $recaptcha = new ReCaptcha('6LfLOqQUAAAAAKnHelEolkPVmIey1HHKVy6Jhh4X');
+
+        $message = "";
+
+
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+       
+        if ($form->isSubmitted() && $form->isValid())   {
+            
+            if(!$this->captchaverify($request->get('g-recaptcha-response')))
+            {
+                $message = "The reCAPTCHA wasn't entered correctly. Go back and try it again.";
+            }
+            else
+            {
             $user->setRegisterDate(\DateTime::createFromFormat('Y-m-d', (date("Y-m-d"))));
             $user->setPassword(
                 $passwordEncoder->encodePassword(
@@ -37,10 +51,27 @@ class RegistrationController extends AbstractController
             // do anything else you need here, like send an email
 
             return $this->redirectToRoute('home');
+            }
         }
-
+        
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'captchaMsg' => $message,
         ]);
     }
+    public function captchaverify($recaptcha){
+        $url = "https://www.google.com/recaptcha/api/siteverify";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array(
+            "secret"=>"6LfLOqQUAAAAAKnHelEolkPVmIey1HHKVy6Jhh4X","response"=>$recaptcha));
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($response);     
+    
+    return $data->success;        
+        }
 }
