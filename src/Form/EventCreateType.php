@@ -9,9 +9,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class EventCreateType extends AbstractType
@@ -31,18 +32,17 @@ class EventCreateType extends AbstractType
                     'placeholder' => 'Renginio aprašymas'
                 ]
             ])
-            ->add('date', DateTimeType::class, [
+            ->add('date', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Renginio data',
-                    
-                ],
-                'html5' => false
+                    'class' => 'form-control datetimepicker-input',
+                    'data-target' => '#datetimepicker1',
+                    'placeholder' => 'Renginio data'
+                ]
             ])
             ->add('price', MoneyType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => "Renginio mokestis"
+                    'placeholder' => 'Renginio mokestis'
                 ]
             ])
             ->add('location', TextType::class, [
@@ -59,6 +59,12 @@ class EventCreateType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'required' => true
+            ])
+            ->add('photo', FileType::class, [
+                'mapped' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
         ;
     }

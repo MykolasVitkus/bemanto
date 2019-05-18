@@ -7,9 +7,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\DateTime;
 use App\Entity\Event;
 use App\Form\EventCreateType;
 
@@ -59,29 +60,30 @@ class EventController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $searchEvent = $this->getDoctrine()->getRepository(Event::class)->findOneBy([
-                'title' => $form->get('title')->getData()
-            ]);
+            $file = $request->files->get('event_create')['photo'];
+            $uploads_directory = $this->getParameter('events_directory');
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
 
-            if(isset($searchEvent))
-            {
-                $this->addFlash('danger', 'Renginys tokiu pavadinimu jau yra sukurtas!');
-            }
-            else
-            {
-                $event->setTitle($form->get('title')->getData());
-                $event->setDescription($form->get('description')->getData());
-                $event->setDate($form->get('date')->getData());
-                $event->setPrice($form->get('price')->getData());
-                $event->setLocation($form->get('location')->getData());
-                $event->setCategory($form->get('category')->getData());
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            
+            $event->setTitle($form->get('title')->getData());
+            $event->setDescription($form->get('description')->getData());
+            $event->setDate(new \DateTime('@'.strtotime($form->get('date')->getData().'+ 2 hours')));
+            
+            $event->setPrice($form->get('price')->getData());
+            $event->setLocation($form->get('location')->getData());
+            $event->setCategory($form->get('category')->getData());
+            
+            $event->setPhoto($filename);
 
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($event);
-                $entityManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($event);
+            $entityManager->flush();
 
-                return $this->redirectToRoute('event');
-            }
+            return $this->redirectToRoute('event');
         }
 
         return $this->render('events/create.html.twig', [

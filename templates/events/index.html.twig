@@ -55,7 +55,9 @@
     <script src="/js/events.js"></script>
     <script>
         jQuery(document).ready(function() {
-            $('.js-datepicker').datepicker();
+            $('.js-datepicker').datepicker({
+                format: 'YYYY-MM-DD'
+            });
         });
     </script>
 {% endblock %}

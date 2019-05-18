@@ -57,7 +57,7 @@ class FilterType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control datetimepicker-input',
-                    'data-target' => '#datetimepicker1',
+                    'data-target' => '#datetimepicker2',
                     'placeholder' => 'Select a date'
                 ]
             ])

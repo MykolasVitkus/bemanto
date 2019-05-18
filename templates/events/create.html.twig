@@ -2,12 +2,6 @@
 
 {% block title %} {{ pageTitle }} {% endblock %}
 
-{% block stylesheets %}
-
-{# {{ encore_entry_link_tags('user_settings') }} #}
-
-{% endblock %}
-
 {% block body %}
 
 <div class="container col-xs-12 col-md-10 mt-5 bg-white">
@@ -59,8 +53,11 @@
 
             </div>
             {% endif %}
-            <div class="mt-2">
+            <div class="input-group date mt-2" id="datetimepicker3" data-target-input="nearest">
                 {{ form_widget(create_form.date) }}
+                <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
             </div>
 
             {% if form_errors(create_form.price) %}
@@ -112,7 +109,11 @@
 {% endblock %}
 
 {% block javascripts %}
-
-{# {{ encore_entry_script_tags('account_settings') }} #}
-
+<script>
+    jQuery(document).ready(function() {
+        $('#datetimepicker3').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm'
+        });
+    });
+</script>
 {% endblock %}
