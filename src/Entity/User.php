@@ -40,7 +40,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $verified=FALSE;
+    private $verified = FALSE;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="users")
@@ -76,7 +76,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -103,7 +103,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -166,5 +166,12 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function isSubscribedCategory(Category $subscribedCategory)
+    {
+        if ($this->subscribedCategories->contains($subscribedCategory)) {
+            return true;
+        } else return false;
     }
 }
