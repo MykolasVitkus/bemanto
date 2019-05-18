@@ -30,6 +30,7 @@ class UserProfileController extends AbstractController
             'user' => $user,
             'avatar' => $avatar,
             'invalidUser' => $invalidUser,
+            'date' =>$user->getRegisterDate()->format("Y-m-d"),
         ]);
     }
 }

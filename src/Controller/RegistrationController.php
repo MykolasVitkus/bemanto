@@ -22,7 +22,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setRegisterDate((date("Y/m/d")));
+            $user->setRegisterDate(\DateTime::createFromFormat('Y-m-d', (date("Y-m-d"))));
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
