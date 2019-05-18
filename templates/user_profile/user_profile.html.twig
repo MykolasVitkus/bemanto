@@ -30,7 +30,9 @@
                 <img src="{{ asset('uploads/avatars/') ~ avatar }}" alt="Profile avatar" class="rounded-circle" height="200" width="200" />
                 <br>
                 <div class="button-change">
+                    {% if isOwnProfile %}
                     <a href="#">Keisti nuotrauką</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-xs-12 col-md-9 p-3 border rounded-right">
