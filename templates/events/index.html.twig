@@ -19,8 +19,8 @@
                     {% for event in pagination %}
                         <div class="col-md-4 bg-light pl-1 pr-1 pb-2" id="event" style="height: 510px;">
                             <div class="card mb-r box-shadow p-3 h-100">
-                                <!--<img alt="pictureTitle" class="w-100 pt-3 mb-2"
-                                     src="images/pictureUrl.jpg"/>-->
+                                <img alt="pictureTitle" class="w-100 pt-3 mb-2"
+                                     src="{{asset('uploads/events/') ~ event.photo}}"/>
                                 <h2>
                                     {{ event.title }}
                                 </h2>
