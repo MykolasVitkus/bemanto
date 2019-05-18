@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
+{% block stylesheets %}
+
+{# {{ encore_entry_link_tags('user_settings') }} #}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container col-xs-12 col-md-10 mt-5 bg-white">
+    <div class="row d-flex justify-content-around">
+        <div class="col-12">
+            <h3>Renginio kūrimas</h3><br>
+        </div>
+        <div class="col-12 col-md-5">
+
+            {% for message in app.flashes('danger') %}
+
+            <div class="alert alert-danger">
+
+                {{ message }}
+
+            </div>
+
+            {% endfor %}
+
+            {{ form_start(edit_form) }}
+
+            {% if form_errors(edit_form.title) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(edit_form.title) }}
+
+            </div>
+            {% endif %}
+            <div class="mt-2">
+                {{ form_widget(edit_form.title) }}
+            </div>
+
+
+            {% if form_errors(edit_form.description) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(edit_form.description) }}
+
+            </div>
+            {% endif %}
+            <div class="mt-2">
+                {{ form_widget(edit_form.description) }}
+            </div>
+
+            {% if form_errors(edit_form.date) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(edit_form.date) }}
+
+            </div>
+            {% endif %}
+            <div class="mt-2">
+                {{ form_widget(edit_form.date) }}
+            </div>
+
+            {% if form_errors(edit_form.price) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(edit_form.price) }}
+
+            </div>
+            {% endif %}
+            <div class="mt-2">
+                {{ form_widget(edit_form.price) }}
+            </div>
+
+            {% if form_errors(edit_form.location) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(edit_form.location) }}
+
+            </div>
+            {% endif %}
+            <div class="mt-2">
+                {{ form_widget(edit_form.location) }}
+            </div>
+
+            {% if form_errors(edit_form.category) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(edit_form.category) }}
+
+            </div>
+            {% endif %}
+            <div class="mt-2">
+
+            </div>
+            {{ form_widget(edit_form.category) }}
+
+            <div class="text-center">
+                <button class="btn btn-success mt-4" type="submit">Redaguoti renginį</button>
+            </div>
+
+            {{ form_end(edit_form) }}
+        </div>
+        <div class="col-12 col-md-4">
+            <img src="https://via.placeholder.com/300" alt="">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{# {{ encore_entry_script_tags('account_settings') }} #}
+
+{% endblock %}
