@@ -124,4 +124,16 @@ class UserSettingsController extends AbstractController
             'blockTitle' => 'El. pašto adreso keitimas',
         ]);
     }
+
+    /**
+     * @Route("/account_settings/avatar_change", name="app_avatarChange")
+     */
+    public function avatarChange()
+    {
+        return $this->render('user_profile/avatar_change.html.twig', [
+            'pageTitle' => 'Nuotraukos keitimas',
+            'blockToShow' => 3,
+            'blockTitle' => 'Nuotraukos keitimas',
+        ]);
+    }
 }
