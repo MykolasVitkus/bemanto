@@ -13,7 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Validator\Constraints\DateTime;
 use App\Entity\Event;
+use App\Entity\Comment;
 use App\Form\EventCreateType;
+use App\Form\CommentType;
 use Symfony\Component\HttpFoundation\File\File;
 
 class EventController extends AbstractController
@@ -157,7 +159,7 @@ class EventController extends AbstractController
      * @Route("/events/{id}", name="view_event")
      * @Security("is_granted('ROLE_USER')")
      */
-    public function viewEvent($id)
+    public function viewEvent(Request $request, $id, EntityManagerInterface $manager, PaginatorInterface $paginator)
     {
         $event = $this->getDoctrine()->getRepository(Event::class)->findOneBy(['id' => $id]);
         if (!$event) {
@@ -170,10 +172,57 @@ class EventController extends AbstractController
         if (in_array($event->getCategory()->getName(), $user->getSubscribedCategories()->toArray())) {
             $isSubscribed = true;
         }
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment, [
+            'action' => $this->generateUrl('view_event', ['id' => $event->getId()])
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setAuthor($user);
+            $comment->setEvent($event);
+            $comment->setDate(\DateTime::createFromFormat('Y-m-d', (date("Y-m-d"))));
+
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('view_event', ['id' => $id]);
+        }
+        $qb = $manager->createQueryBuilder()
+        ->from('App:Comment', 'Comment')
+        ->select("Comment")
+        ->where("Comment.event = :event")
+            ->setParameter('event', $id);
+        $pagination = $paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            5
+        );
         return $this->render('events/view.html.twig', [
             'event' => $event,
-            'subscribed' => $isSubscribed
+            'user' => $user,
+            'id'=> $event->getId(),
+            'subscribed' => $isSubscribed,
+            'comment_form' => $form->createView(),
+            'pagination' => $pagination,
         ]);
+    }
+
+    /**
+     * @Route("/comments/delete/{id}", name="comment_delete")
+     */
+    public function deleteComment($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $comment = $entityManager->getRepository(Comment::class)->find($id);
+        $comment_event_id = $comment->getEvent()->getId();
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('view_event', ['id' => $comment_event_id]);
     }
 
     private function generateFilterQuery($formData, $queryBuilder)
