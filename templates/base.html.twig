@@ -38,37 +38,27 @@
                             href={{ path('app_register') }}>Registruotis</a> </li>{% endif %}
                 </ul>
 
-                {% if is_granted('ROLE_USER') %}
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navBarProfileDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-user mr-2"></i> {{ app.user.username }}
-                        </a>
-                        <div class="dropdown-menu mt-2" style="border-radius: 0 0 .25rem .25rem;"
-                            aria-labelledby="navBarProfileDropdown">
-                            <a class="dropdown-item" href={{ path('app_myProfile') }}><i
-                                    class="fas fa-user-circle mr-2"></i> Profilis</a>
-                            <a class="dropdown-item" href={{ path('subscriptions')}}><i
-                                    class="fas fa-plus-circle mr-2"></i> Sekamos kategorijos</a>
-                            <a class="dropdown-item" href={{ path('app_userSettings') }}><i
-                                    class="fas fa-tools mr-2"></i> Nustatymai</a>
-                            {% if is_granted('ROLE_ADMIN') %}
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ path('user_deletion') }}"><i
-                                    class="fas fa-users mr-2"></i> Vartotojai</a>
-                            <a class="dropdown-item" href="{{ path('categories') }}"><i class="fas fa-tags mr-2"></i>
-                                Kategorijos</a>
-                            <a class="dropdown-item" href="{{ path('event_create') }}"><i
-                                    class="fas fa-calendar-plus mr-2"></i> Kurti renginį</a>
-                            {% endif %}
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href={{ path('logout') }}><i class="fas fa-sign-out-alt mr-2"></i>
-                                Atsijungti</a>
-                    </li>
-                </ul>
-                {% endif %}
-            </div>
+                    {% if is_granted('ROLE_USER') %}
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navBarProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user mr-2"></i> {{ app.user.username }}
+                                </a>
+                                <div class="dropdown-menu mt-2" style="border-radius: 0 0 .25rem .25rem;" aria-labelledby="navBarProfileDropdown">
+                                    <a class="dropdown-item" href={{ path('app_myProfile') }}><i class="fas fa-user-circle mr-2"></i> Profilis</a>
+                                    <a class="dropdown-item" href={{ path('subscriptions')}}><i class="fas fa-plus-circle mr-2"></i> Sekamos kategorijos</a>
+                                    <a class="dropdown-item" href={{ path('app_userSettings') }}><i class="fas fa-tools mr-2"></i> Nustatymai</a>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{ path('user_deletion') }}"><i class="fas fa-users mr-2"></i>Vartotojai</a>
+                                        <a class="dropdown-item" href="{{ path('categories') }}"><i class="fas fa-tags mr-2"></i>Kategorijos</a>
+                                        <a class="dropdown-item" href="{{ path('event_create') }}"><i class="fas fa-calendar-plus mr-2"></i> Kurti renginį</a>
+                                    {% endif %}
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href={{ path('logout') }}><i class="fas fa-sign-out-alt mr-2"></i> Atsijungti</a>
+                            </li>
+                        </ul>
+                    {% endif %}
         </div>
     </nav>
     {% block body %}{% endblock %}

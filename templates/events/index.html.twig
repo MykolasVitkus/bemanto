@@ -10,7 +10,8 @@
     }
 </style>
 <div class="page bg-white">
-    <h1 class="jumbotron text-center bg-secondary text-light no-border" style="border-radius: 0 !important;">
+    <h1 class="jumbotron text-center bg-secondary text-light no-border bg-image"
+        style="border-radius: 0 !important; text-shadow: 2px 2px 2px #030303">
         {{ controller_name }}</h1>
     {{ include('events/filter.html.twig') }}
     <div class="album bg-light">
@@ -37,31 +38,38 @@
                         </div>
                         <a href={{ path('view_event', {id: event.id}) }}>
                             <button class="btn btn-dark bottom" style="position: absolute; bottom: 15px;"
-                                type="button">Skaityti daugiau
+                                type="button">Read more
                             </button>
                         </a>
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <a href={{ path('event_edit', {id: event.id}) }}>
-                            <button class="btn btn-success bottom"
-                                style="position: absolute; bottom: 15px; left: 170px;" type="button">Redaguoti
-                            </button>
-                        </a>
-
-                        <a href={{ path('event_delete', {id: event.id}) }}>
-                            <button class="btn btn-danger bottom" style="position: absolute; bottom: 15px; left: 270px;"
-                                type="button">Pašalinti
-                            </button>
-                        </a>
-                        {% endif %}
                     </div>
                 </div>
-                {% endfor %}
-            </div>
-            <div class="paginator-navigation">
-                {{ knp_pagination_render(pagination) }}
+                <a href={{ path('view_event', {id: event.id}) }}>
+                    <button class="btn btn-dark bottom" style="position: absolute; bottom: 15px;" type="button">Skaityti
+                        daugiau
+                    </button>
+                </a>
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href={{ path('event_edit', {id: event.id}) }}>
+                    <button class="btn btn-success bottom" style="position: absolute; bottom: 15px; left: 170px;"
+                        type="button">Redaguoti
+                    </button>
+                </a>
+
+                <a href={{ path('event_delete', {id: event.id}) }}>
+                    <button class="btn btn-danger bottom" style="position: absolute; bottom: 15px; left: 270px;"
+                        type="button">Pašalinti
+                    </button>
+                </a>
+                {% endif %}
             </div>
         </div>
+        {% endfor %}
     </div>
+    <div class="paginator-navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</div>
+</div>
 </div>
 {% endblock %}
 {% block javascripts %}

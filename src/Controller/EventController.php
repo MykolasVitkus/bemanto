@@ -39,7 +39,7 @@ class EventController extends AbstractController
 
         return $this->render('events/index.html.twig', [
             'pagination' => $pagination,
-            'controller_name' => 'Events',
+            'controller_name' => 'Renginiai',
             'events' => $events,
             'form' => $form->createView()
         ]);
