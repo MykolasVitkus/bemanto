@@ -4,10 +4,11 @@
 
 {% block body %}
     <div class="jumbotron text-center">
-            <h1><small>Register into</small> bemanto</h1>
+            <h1><small>Registruotis </small> bemanto</h1>
         </div>
 
 <div class="container col-sm-4">
+<script src='https://www.google.com/recaptcha/api.js'></script>
     {{ form_start(registrationForm) }}
 
         <div class="mt-2 mb-2">
@@ -19,11 +20,15 @@
         <div class="mt-2 mb-2">
         {{ form_row(registrationForm.password.second) }}
         </div>
+        <div class="g-recaptcha" data-sitekey="6LfLOqQUAAAAAKXVbY_MkjfV2OJTDEHfpUPEI9VB"></div>
+        <br />
+        <br />
+        <p>{{captchaMsg}}</p>
         <div class="text-center pt-2">
-            <button class="btn btn-primary" type="submit">Register</button> 
+            <button class="btn btn-primary" type="submit">Patvirtinti</button>
         </div>
     {{ form_end(registrationForm) }}
 
-    <span class="text-center"><p class="mt-2">Already have an account? <a href={{ '/login' }}>Login here</a></span>
+    <span class="text-center"><p class="mt-2">Jau turite savo paskyrą? Neišsigąskite, <a href={{ '/login' }}>prisijunkite čia</a></span>
     </div>
 {% endblock %}

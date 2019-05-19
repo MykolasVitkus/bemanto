@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -38,7 +40,34 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $verified=FALSE;
+    private $verified = FALSE;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="users")
+     */
+    private $subscribedCategories;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $registerDate;
+  
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
+     */
+    private $comments;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar;
+
+    public function __construct()
+    {
+        $this->subscribedCategories = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->setRegisterDate(\DateTime::createFromFormat('Y-m-d', (date("Y-m-d"))));
+    }
 
     public function getId(): ?int
     {
@@ -64,7 +93,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -91,7 +120,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -126,6 +155,92 @@ class User implements UserInterface
     public function setVerified(bool $verified): self
     {
         $this->verified = $verified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getSubscribedCategories(): Collection
+    {
+        return $this->subscribedCategories;
+    }
+
+    public function addSubscribedCategory(Category $subscribedCategory): self
+    {
+        if (!$this->subscribedCategories->contains($subscribedCategory)) {
+            $this->subscribedCategories[] = $subscribedCategory;
+        }
+
+        return $this;
+    }
+
+    public function removeSubscribedCategory(Category $subscribedCategory): self
+    {
+        if ($this->subscribedCategories->contains($subscribedCategory)) {
+            $this->subscribedCategories->removeElement($subscribedCategory);
+        }
+
+        return $this;
+    }
+
+    public function isSubscribedCategory(Category $subscribedCategory)
+    {
+        if ($this->subscribedCategories->contains($subscribedCategory)) {
+            return true;
+        } else return false;
+    }
+
+    public function getRegisterDate(): ?\DateTimeInterface
+    {
+        return $this->registerDate;
+    }
+
+    public function setRegisterDate(?\DateTimeInterface $registerDate)
+    {
+        $this->registerDate = $registerDate;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

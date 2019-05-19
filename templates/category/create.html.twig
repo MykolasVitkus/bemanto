@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
+{% block stylesheets %}
+
+    {# {{ encore_entry_link_tags('user_settings') }} #}
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="container col-xs-12 col-md-10 mt-5 bg-white">
+        <div class="row col-xs-12 justify-content-center align-items-center">
+            <div class="col col-xs-12 col-md-4">
+                <h3>Naujos kategorijos kūrimas</h3><br>
+
+                {% for message in app.flashes('danger') %}
+
+                    <div class="alert alert-danger">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+                {{ form_start(create_form) }}
+                
+                    {{ form_errors(create_form.name) }}
+                    {{ form_widget(create_form.name) }}
+
+                    <div class="text-center">
+                        <button class="btn btn-success mt-4" type="submit">Sukurti kategoriją</button> 
+                    </div>
+
+                {{ form_end(create_form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {# {{ encore_entry_script_tags('account_settings') }} #}
+
+{% endblock %}

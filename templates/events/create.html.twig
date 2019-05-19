@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
+{% block body %}
+{% include 'events/form.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('#event_create_photo').on('change',function(){
+            let fileName = $(this).val().replace(/^.*[\\\/]/, '');
+            $(this).next('.custom-file-label').html(fileName);
+        })
+    </script>
+{% endblock %}

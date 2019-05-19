@@ -12,33 +12,33 @@
     
     {% if invalidUser %}
         
-        <div class="container col-xs-12 col-md-10 mt-3">
+        <div class="container mt-3">
             <div class="alert alert-danger alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h4 class="alert-heading">User 404!</h4>
-                Vartotojas, kurio bandėte ieškoti, nerastas. Buvote nukreiptas į savo paskyros profilio peržiūrą. 
+                Vartotojas, kurio bandėte ieškoti, nerastas.
             </div>
         </div>
 
-    {% endif %}
+    {% else %}
 
     <div class="container col-xs-12 col-md-10 bg-white {% if invalidUser %} mt-1 {% else %} mt-5 {% endif %}">
         <div class="row">
             <div class="col-xs-12 col-md-3 p-3 text-center border border-right-0 rounded-left">
-                {{ user.getEmail() }}
+                {{ user.email }}
                 <br><br>
-                <img src="{{ asset('uploads/avatars/') ~ avatar }}" alt="Profile avatar" class="rounded-circle" height="200" width="200" />
+                <img src="{{ asset('uploads/avatars/') ~ user.avatar }}" alt="Profile avatar" class="rounded-circle" height="200" width="200" />
                 <br>
                 <div class="button-change">
-                    <a href="#">Keisti nuotrauką</a>
+                    {% if isOwnProfile %}
+                    <a href="{{ path('app_avatarChange') }}">Keisti nuotrauką</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-xs-12 col-md-9 p-3 border rounded-right">
-                Vartotojo vardas: Aleksas Makakas<br>
-                Užsiregistravo 2019-03-24<br>
-                Parašytų komentarų: 0
+                Užsiregistravo {{ user.registerDate|date('Y-m-d') }}<br>
             </div>
         </div>
     </div>
+    {% endif %}
 
 {% endblock %}
