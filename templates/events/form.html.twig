@@ -87,9 +87,15 @@
             <div class="mt-2">
                 {{ form_widget(event_form.category) }}
             </div>
-
-            <div class="mt-2">
-                {{ form_widget(event_form.photo) }}
+            <div class="input-group mt-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Įkelti</span>
+                </div>
+                <div class="custom-file">
+                    {{ form_widget(event_form.photo, { 'attr': {'class': 'custom-file-input',
+                        'id': 'inputGroupFile01', 'aria-describedby': 'inputGroupFileAddon01'  }}) }}
+                    <label class="custom-file-label" for="inputGroupFile01">Pasirinkite nuotrauką</label>
+                </div>
             </div>
 
             <div class="text-center">
