@@ -18,9 +18,9 @@
         <div class="container">
             <div class="row">
                 {% for event in pagination %}
-                <div class="col-md-4 bg-light pl-1 pr-1 pb-2" id="event" style="height: 510px;">
+                <div class="col-md-4 bg-light p-2" id="event" style="height: 510px;">
                     <div class="card mb-r box-shadow p-3 h-100">
-                        <img alt="pictureTitle" class="w-100 pt-3 mb-2"
+                        <img alt="pictureTitle" class="w-100 mb-2 card-picture"
                             src="{{asset('uploads/events/') ~ event.photo}}" />
                         <h2>
                             {{ event.title }}
@@ -36,34 +36,36 @@
                         <div class="wrapper" style="height: 120px; overflow: hidden; word-wrap: break-word;">
                             {{ event.description }}
                         </div>
-                        <a href={{ path('view_event', {id: event.id}) }}>
-                            <button class="btn btn-dark bottom" style="position: absolute; bottom: 15px;"
-                                type="button">Read more
-                            </button>
-                        </a>
+                        <div style="position: absolute; bottom: 15px;">
+                            <a href={{ path('view_event', {id: event.id}) }}>
+                                <button class="btn btn-dark bottom" type="button">Skaityti
+                                    daugiau
+                                </button>
+                            </a>
+                        </div>
+                        <div style="position: absolute; bottom: 15px; right: 1em;">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href={{ path('event_edit', {id: event.id}) }}>
+                                    <button class="btn btn-success bottom"
+                                            type="button"><i class="fa fa-edit"></i>
+                                    </button>
+                                </a>
+
+                                <a href={{ path('event_delete', {id: event.id}) }}>
+                                    <button class="btn btn-danger bottom"
+                                            type="button"><i class="fa fa-trash"></i>
+                                    </button>
+                                </a>
+                            {% endif %}
+                        </div>
+
+
                     </div>
                 </div>
-                <a href={{ path('view_event', {id: event.id}) }}>
-                    <button class="btn btn-dark bottom" style="position: absolute; bottom: 15px;" type="button">Skaityti
-                        daugiau
-                    </button>
-                </a>
-                {% if is_granted('ROLE_ADMIN') %}
-                <a href={{ path('event_edit', {id: event.id}) }}>
-                    <button class="btn btn-success bottom" style="position: absolute; bottom: 15px; left: 170px;"
-                        type="button">Redaguoti
-                    </button>
-                </a>
-
-                <a href={{ path('event_delete', {id: event.id}) }}>
-                    <button class="btn btn-danger bottom" style="position: absolute; bottom: 15px; left: 270px;"
-                        type="button">Pašalinti
-                    </button>
-                </a>
-                {% endif %}
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
+
     </div>
     <div class="paginator-navigation">
         {{ knp_pagination_render(pagination) }}

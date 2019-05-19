@@ -21,38 +21,66 @@ body {
   position: relative;
   overflow: hidden;
 }
+
 .bg-image {
   background-image: url("../../public/images/main.jpg");
   background-position-y: -500px;
 }
+
 .main-image img {
   position: relative;
   top: -350px;
 }
+
 .main-image div {
   position: absolute;
-  top: 200px;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
   padding: 2em;
 }
+
 .main-image div p {
   color: white;
-  font-size: 18pt;
+  font-size: 16pt;
 }
 
 .browse-link {
   position: absolute;
-  bottom: 100px;
+  bottom: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
 
+}
+
+.btn-labeled {
+  position: relative;
+  padding-left: 0 !important;
+  padding-right: 1em !important;
+}
+
+.btn-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 7px 16px;
+  margin-right: 1em;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.image-responsive {
+  max-width: 500px;
+}
+
+.category-label {
+  margin-left: 64px;
 }
 
 @media(max-width: 768px) {
   .form-horizontal {
     flex-direction: column;
   }
+
 }

@@ -11,28 +11,75 @@
         }
     </style>
     <div class="page bg-white">
-        <h1 class="jumbotron text-center bg-secondary text-light no-border">
-            {{ event.title }}</h1>
-        <div class="container">
+
+        <div class="container p-4">
             <div class="row">
-                <img alt="pictureTitle" class="image-responsive pt-3 mb-2" src="{{asset('uploads/events/') ~ event.photo}}"/>
-                <h2>
-                    {{ event.title }}
-                </h2>
-                <p class="mb-0">
-                    <i>
-                        {{ event.category }}
-                    </i>
-                </p>
-                <strong>
-                    {{ event.date|date('Y-m-d H:i') }}
-                </strong>
-                <div class="wrapper" style="height: 120px; overflow: hidden; word-wrap: break-word;">
-                    {{ event.description }}
+                <div class="col-6">
+                    <img alt="pictureTitle" class="image-responsive"
+                         src="{{ asset('uploads/events/') ~ event.photo }}"/>
                 </div>
+                <div class="col-6">
+
+                    <h2>
+                        {{ event.title }}
+                    </h2>
+                    <hr>
+                    <div class="buttons">
+
+                        {% if subscribed %}
+                            <a href="{{ path('category_unsubscribe', {'id': event.category.id }) }}">
+                                <button type="button" class="btn btn-danger btn-labeled">
+                                    <span class="btn-label"><i class="fa fa-minus"></i></span><span
+                                            class="category-label">{{ event.category }}</span>
+                                </button>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('category_subscribe', {'id': event.category.id }) }}">
+                                <button type="button" class="btn btn-success btn-labeled">
+                                    <span class="btn-label"><i class="fa fa-plus"></i></span>{{ event.category }}
+                                </button>
+                            </a>
+                        {% endif %}
+
+
+                        <button class="btn btn-warning" disabled>{{ event.price }}€</button>
+
+                        <button class="btn btn-info" disabled>{{ event.location }}</button>
+
+                        <button class="btn btn-info" disabled><i
+                                    class="fa fa-clock"></i> {{ event.date|date('Y-m-d H:i') }}</button>
+                    </div>
+                <hr>
+                    <div class="wrapper" style="height: 120px; overflow: hidden; word-wrap: break-word;">
+                        {{ event.description }}
+                    </div>
+                </div>
+
+
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-6">
+                    <h2 class="text-center p-4">Vieta</h2>
+                    <div class="gmap_canvas text-center">
+                        <iframe width="500" height="500" id="gmap_canvas"
+                                src="https://maps.google.com/maps?q={{ event.location|url_encode }}&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h2 class="text-center p-4">Komentarai</h2>
+                    {% for comment in event.comments %}
+                        {{ comment }}
+                    {% endfor %}
+                </div>
+
+                <hr>
+
             </div>
         </div>
     </div>
+
 {% endblock %}
 {% block javascripts %}
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\FilterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -59,13 +60,12 @@ class EventController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $file = $request->files->get('event_create')['photo'];
-            if($file->getClientSize() > 3000000) {
+            if ($file->getClientSize() > 3000000) {
                 $this->addFlash('danger', 'Failo dydis yra per didelis.');
             }
-            if($file->getClientMimeType() === 'image/png' || $file->getClientMimeType() === 'image/jpeg') {
+            if ($file->getClientMimeType() === 'image/png' || $file->getClientMimeType() === 'image/jpeg') {
                 $uploads_directory = $this->getParameter('events_directory');
                 $filename = md5(uniqid()) . '.' . $file->guessExtension();
 
@@ -103,18 +103,17 @@ class EventController extends AbstractController
         ]);
 
         $form = $this->createForm(EventCreateType::class, $event, [
-            'action' => $this->generateUrl('event_edit', [ 'id' => $id ])
+            'action' => $this->generateUrl('event_edit', ['id' => $id])
         ]);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $file = $request->files->get('event_create')['photo'];
-            if($file->getClientSize() > 3000000) {
+            if ($file->getClientSize() > 3000000) {
                 $this->addFlash('danger', 'Failo dydis yra per didelis.');
             }
-            if($file->getClientMimeType() === 'image/png' || $file->getClientMimeType() === 'image/jpeg') {
+            if ($file->getClientMimeType() === 'image/png' || $file->getClientMimeType() === 'image/jpeg') {
                 $uploads_directory = $this->getParameter('events_directory');
                 $filename = md5(uniqid()) . '.' . $file->guessExtension();
 
@@ -153,8 +152,8 @@ class EventController extends AbstractController
 
         return $this->redirectToRoute('event');
     }
-    
-    /** 
+
+    /**
      * @Route("/events/{id}", name="view_event")
      * @Security("is_granted('ROLE_USER')")
      */
@@ -166,8 +165,14 @@ class EventController extends AbstractController
                 'There is no events with the following id: ' . $id
             );
         }
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $isSubscribed = false;
+        if (in_array($event->getCategory()->getName(), $user->getSubscribedCategories()->toArray())) {
+            $isSubscribed = true;
+        }
         return $this->render('events/view.html.twig', [
-            'event' => $event
+            'event' => $event,
+            'subscribed' => $isSubscribed
         ]);
     }
 
