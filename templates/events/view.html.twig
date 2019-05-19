@@ -15,7 +15,7 @@
             {{ event.title }}</h1>
         <div class="container">
             <div class="row">
-                <!--<img alt="pictureTitle" class="w-100 pt-3 mb-2" src="images/pictureUrl.jpg"/>-->
+                <img alt="pictureTitle" class="image-responsive pt-3 mb-2" src="{{asset('uploads/events/') ~ event.photo}}"/>
                 <h2>
                     {{ event.title }}
                 </h2>
