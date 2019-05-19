@@ -75,13 +75,6 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid" />
-                                {% if (is_granted('ROLE_ADMIN') or user.getId() == comment.getAuthor().getId()) %}
-                                <a href={{ path('comment_delete', {id: comment.getId()}) }}>
-                                    <button class="btn btn-danger bottom"
-                                            type="button"><i class="fa fa-trash"></i>
-                                    </button>
-                                </a>
-                            {% endif %}
                             </div>
                             <div class="col-md-9">
                                 <p class="float-left">
@@ -93,6 +86,14 @@
                                 <div class="clearfix"></div>
                                 <p>
                                     {{ comment.getMessage()}}
+                                </p>
+                                <p class="float-right">
+                                    {% if (is_granted('ROLE_ADMIN') or user.getId() == comment.getAuthor().getId()) %}
+                                    <a href={{ path('comment_delete', {id: comment.getId()}) }}>
+                                        <button class="btn btn-danger bottom" type="button"><i class="fa fa-trash"></i>
+                                        </button>
+                                    </a>
+                                    {% endif %}
                                 </p>
                             </div>
                         </div>
