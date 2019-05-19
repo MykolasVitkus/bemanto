@@ -61,29 +61,36 @@ class EventController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $file = $request->files->get('event_create')['photo'];
-            $uploads_directory = $this->getParameter('events_directory');
-            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            if($file->getClientSize() > 3000000) {
+                $this->addFlash('danger', 'File is too large');
+            }
+            if($file->getClientMimeType() === 'image/png' || $file->getClientMimeType() === 'image/jpeg') {
+                $uploads_directory = $this->getParameter('events_directory');
+                $filename = md5(uniqid()) . '.' . $file->guessExtension();
 
-            $file->move(
-                $uploads_directory,
-                $filename
-            );
-            
-            $event->setTitle($form->get('title')->getData());
-            $event->setDescription($form->get('description')->getData());
-            $event->setDate(new \DateTime('@'.strtotime($form->get('date')->getData().'+ 2 hours')));
-            
-            $event->setPrice($form->get('price')->getData());
-            $event->setLocation($form->get('location')->getData());
-            $event->setCategory($form->get('category')->getData());
-            
-            $event->setPhoto($filename);
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($event);
-            $entityManager->flush();
+                $event->setTitle($form->get('title')->getData());
+                $event->setDescription($form->get('description')->getData());
+                $event->setDate(new \DateTime('@'.strtotime($form->get('date')->getData().'+ 2 hours')));
 
-            return $this->redirectToRoute('event');
+                $event->setPrice($form->get('price')->getData());
+                $event->setLocation($form->get('location')->getData());
+                $event->setCategory($form->get('category')->getData());
+
+                $event->setPhoto($filename);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($event);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('event');
+            } else {
+                $this->addFlash('danger', 'File is not valid');
+            }
         }
 
         return $this->render('events/create.html.twig', [
