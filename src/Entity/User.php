@@ -51,7 +51,7 @@ class User implements UserInterface
      * @ORM\Column(type="date", nullable=true)
      */
     private $registerDate;
-
+  
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
      */
