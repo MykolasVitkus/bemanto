@@ -140,6 +140,13 @@ class UserSettingsController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $file = $request->files->all()['avatar_change']['avatar'];
+
+            if($file->getSize() > 1000000)
+            {
+                $this->addFlash('danger', 'Failas yra per didelis! Didžiausias leistinas dydis 1MB.');
+                return $this->redirectToRoute('app_avatarChange');
+            }
+
             $avatarsDirectory = $this->getParameter('avatars_directory');
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             
