@@ -10,6 +10,8 @@ use App\Form\UserPasswordChangeType;
 use App\Form\EmailChangeType;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\AvatarChangeType;
+use Symfony\Component\Filesystem\Filesystem;
 
 class UserSettingsController extends AbstractController
 {
@@ -122,6 +124,53 @@ class UserSettingsController extends AbstractController
             'emailChangeForm' => $form->createView(),
             'blockToShow' => 2,
             'blockTitle' => 'El. pašto adreso keitimas',
+        ]);
+    }
+
+    /**
+     * @Route("/account_settings/avatar_change", name="app_avatarChange")
+     */
+    public function avatarChange(Request $request)
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $avatar = $user->getAvatar();
+
+        $form = $this->createForm(AvatarChangeType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $file = $request->files->all()['avatar_change']['avatar'];
+
+            if($file->getSize() > 1000000)
+            {
+                $this->addFlash('danger', 'Failas yra per didelis! Didžiausias leistinas dydis 1MB.');
+                return $this->redirectToRoute('app_avatarChange');
+            }
+
+            $avatarsDirectory = $this->getParameter('avatars_directory');
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            
+            $file->move(
+                $avatarsDirectory, $fileName
+            );
+
+            $fileSystem = new Filesystem();
+            $fileSystem->remove($avatarsDirectory . '/' . $avatar);
+
+            $user->setAvatar($fileName);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_avatarChange');
+        }
+
+        return $this->render('user_settings/user_settings.html.twig', [
+            'pageTitle' => 'Paskyros nustatymai',
+            'blockToShow' => 3,
+            'blockTitle' => 'Nuotraukos keitimas',
+            'avatar' => $avatar,
+            'avatar_form' => $form->createView(),
         ]);
     }
 }

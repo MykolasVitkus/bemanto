@@ -51,12 +51,16 @@ class User implements UserInterface
      * @ORM\Column(type="date", nullable=true)
      */
     private $registerDate;
+  
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
      */
     private $comments;
 
-  
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar;
 
     public function __construct()
     {
@@ -196,6 +200,7 @@ class User implements UserInterface
     {
         $this->registerDate = $registerDate;
     }
+
     /**
      * @return Collection|Comment[]
      */
@@ -223,6 +228,18 @@ class User implements UserInterface
                 $comment->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }
