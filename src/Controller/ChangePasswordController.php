@@ -19,7 +19,7 @@ class ChangePasswordController extends AbstractController
     public function changePw(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $user= $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
 
         $form = $this->createForm(UserPasswordChangeType::class);

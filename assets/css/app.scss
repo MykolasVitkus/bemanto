@@ -31,7 +31,7 @@ body {
 }
 .main-image div {
   position: absolute;
-  top: 40%;
+  top: 200px;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.7);
@@ -45,7 +45,7 @@ body {
 
 .browse-link {
   position: absolute;
-  top: 65%;
+  bottom: 100px;
   left: 50%;
   transform: translate(-50%, -50%);
 
