@@ -62,7 +62,7 @@ class EventController extends AbstractController
         {
             $file = $request->files->get('event_create')['photo'];
             if($file->getClientSize() > 3000000) {
-                $this->addFlash('danger', 'File is too large');
+                $this->addFlash('danger', 'Failo dydis yra per didelis.');
             }
             if($file->getClientMimeType() === 'image/png' || $file->getClientMimeType() === 'image/jpeg') {
                 $uploads_directory = $this->getParameter('events_directory');
@@ -89,7 +89,7 @@ class EventController extends AbstractController
 
                 return $this->redirectToRoute('event');
             } else {
-                $this->addFlash('danger', 'File is not valid');
+                $this->addFlash('danger', 'Pateiktas failas yra netinkamas.');
             }
         }
 
