@@ -159,7 +159,7 @@ class EventController extends AbstractController
      * @Route("/events/{id}", name="view_event")
      * @Security("is_granted('ROLE_USER')")
      */
-    public function viewEvent(Request $request, $id)
+    public function viewEvent(Request $request, $id, EntityManagerInterface $manager, PaginatorInterface $paginator)
     {
         $event = $this->getDoctrine()->getRepository(Event::class)->findOneBy(['id' => $id]);
         if (!$event) {
@@ -191,12 +191,22 @@ class EventController extends AbstractController
 
             return $this->redirectToRoute('view_event', ['id' => $id]);
         }
-
+        $qb = $manager->createQueryBuilder()
+        ->from('App:Comment', 'Comment')
+        ->select("Comment")
+        ->where("Comment.event = :event")
+            ->setParameter('event', $id);
+        $pagination = $paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            5
+        );
         return $this->render('events/view.html.twig', [
             'event' => $event,
             'id'=> $event->getId(),
             'subscribed' => $isSubscribed,
-            'comment_form' => $form->createView()
+            'comment_form' => $form->createView(),
+            'pagination' => $pagination,
         ]);
     }
 
