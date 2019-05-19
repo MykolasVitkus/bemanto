@@ -13,7 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Validator\Constraints\DateTime;
 use App\Entity\Event;
+use App\Entity\Comment;
 use App\Form\EventCreateType;
+use App\Form\CommentType;
 use Symfony\Component\HttpFoundation\File\File;
 
 class EventController extends AbstractController
@@ -157,7 +159,7 @@ class EventController extends AbstractController
      * @Route("/events/{id}", name="view_event")
      * @Security("is_granted('ROLE_USER')")
      */
-    public function viewEvent($id)
+    public function viewEvent(Request $request, $id)
     {
         $event = $this->getDoctrine()->getRepository(Event::class)->findOneBy(['id' => $id]);
         if (!$event) {
@@ -170,9 +172,31 @@ class EventController extends AbstractController
         if (in_array($event->getCategory()->getName(), $user->getSubscribedCategories()->toArray())) {
             $isSubscribed = true;
         }
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment, [
+            'action' => $this->generateUrl('view_event', ['id' => $event->getId()])
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setAuthor($user);
+            $comment->setEvent($event);
+            $comment->setDate(\DateTime::createFromFormat('Y-m-d', (date("Y-m-d"))));
+
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('view_event', ['id' => $id]);
+        }
+
         return $this->render('events/view.html.twig', [
             'event' => $event,
-            'subscribed' => $isSubscribed
+            'id'=> $event->getId(),
+            'subscribed' => $isSubscribed,
+            'comment_form' => $form->createView()
         ]);
     }
 
@@ -202,5 +226,52 @@ class EventController extends AbstractController
             $queryBuilder->andWhere("Event.price <= :priceTo")
                 ->setParameter('priceTo', ($formData['priceTo']));
         }
+    }
+
+    /**
+     * @Route("/comment/create", name="comment_create")
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function createComment(Request $request)
+    {
+        $event = new Event();
+
+        $form = $this->createForm(EventCreateType::class, $event, [
+            'action' => $this->generateUrl('event_create')
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $request->files->get('event_create')['photo'];
+            if ($file->getClientSize() > 3000000) {
+                $this->addFlash('danger', 'Failo dydis yra per didelis.');
+            }
+            if ($file->getClientMimeType() === 'image/png' || $file->getClientMimeType() === 'image/jpeg') {
+                $uploads_directory = $this->getParameter('events_directory');
+                $filename = md5(uniqid()) . '.' . $file->guessExtension();
+
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+
+                $event->setPhoto($filename);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($event);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('event');
+            } else {
+                $this->addFlash('danger', 'Pateiktas failas yra netinkamas.');
+            }
+        }
+
+        return $this->render('events/create.html.twig', [
+            'pageTitle' => 'Renginio kūrimas',
+            'actionButton' => 'Sukurti renginį',
+            'event_form' => $form->createView()
+        ]);
     }
 }
