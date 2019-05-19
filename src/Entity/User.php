@@ -66,6 +66,7 @@ class User implements UserInterface
     {
         $this->subscribedCategories = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->setRegisterDate(\DateTime::createFromFormat('Y-m-d', (date("Y-m-d"))));
     }
 
     public function getId(): ?int

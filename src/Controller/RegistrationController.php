@@ -37,7 +37,6 @@ class RegistrationController extends AbstractController
             if (!$this->captchaverify($request->get('g-recaptcha-response'))) {
                 $message = "reCAPTCHA buvo įvesta nesėkmingai.";
             } else {
-                $user->setRegisterDate(\DateTime::createFromFormat('Y-m-d', (date("Y-m-d"))));
                 $user->setPassword(
                     $passwordEncoder->encodePassword(
                         $user,
