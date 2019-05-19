@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Validator\Constraints\DateTime;
 use App\Entity\Event;
 use App\Form\EventCreateType;
+use Symfony\Component\HttpFoundation\File\File;
 
 class EventController extends AbstractController
 {
@@ -52,7 +53,7 @@ class EventController extends AbstractController
     {
         $event = new Event();
 
-        $form = $this->createForm(EventCreateType::class, [
+        $form = $this->createForm(EventCreateType::class, $event, [
             'action' => $this->generateUrl('event_create')
         ]);
 
@@ -73,14 +74,6 @@ class EventController extends AbstractController
                     $filename
                 );
 
-                $event->setTitle($form->get('title')->getData());
-                $event->setDescription($form->get('description')->getData());
-                $event->setDate(new \DateTime('@'.strtotime($form->get('date')->getData().'+ 2 hours')));
-
-                $event->setPrice($form->get('price')->getData());
-                $event->setLocation($form->get('location')->getData());
-                $event->setCategory($form->get('category')->getData());
-
                 $event->setPhoto($filename);
 
                 $entityManager = $this->getDoctrine()->getManager();
@@ -95,9 +88,72 @@ class EventController extends AbstractController
 
         return $this->render('events/create.html.twig', [
             'pageTitle' => 'Renginio kūrimas',
-            'create_form' => $form->createView()
+            'actionButton' => 'Sukurti renginį',
+            'event_form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/events/event_edit/{id}", name="event_edit")
+     */
+    public function edit(Request $request, $id)
+    {
+        $event = $this->getDoctrine()->getRepository(Event::class)->findOneBy([
+            'id' => $id
+        ]);
+
+        $form = $this->createForm(EventCreateType::class, $event, [
+            'action' => $this->generateUrl('event_edit', [ 'id' => $id ])
+        ]);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $file = $request->files->get('event_create')['photo'];
+            if($file->getClientSize() > 3000000) {
+                $this->addFlash('danger', 'Failo dydis yra per didelis.');
+            }
+            if($file->getClientMimeType() === 'image/png' || $file->getClientMimeType() === 'image/jpeg') {
+                $uploads_directory = $this->getParameter('events_directory');
+                $filename = md5(uniqid()) . '.' . $file->guessExtension();
+
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+                $event->setPhoto($filename);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+
+                return $this->redirectToRoute('event');
+            } else {
+                $this->addFlash('danger', 'Pateiktas failas yra netinkamas.');
+            }
+        }
+
+
+        return $this->render('events/edit.html.twig', [
+            'pageTitle' => 'Renginio redagavimas',
+            'actionButton' => 'Redaguoti renginį',
+            'event_form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/events/event_delete/{id}", name="event_delete")
+     */
+    public function delete($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $event = $entityManager->getRepository(Event::class)->find($id);
+        $entityManager->remove($event);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('event');
+    }
+    
     /** 
      * @Route("/events/{id}", name="view_event")
      * @Security("is_granted('ROLE_USER')")
