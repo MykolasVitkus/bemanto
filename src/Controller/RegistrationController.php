@@ -30,6 +30,7 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
             
             if (!$this->captchaverify($request->get('g-recaptcha-response'))) {

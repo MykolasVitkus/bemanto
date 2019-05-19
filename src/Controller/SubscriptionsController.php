@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Category;
 
@@ -41,7 +42,6 @@ class SubscriptionsController extends AbstractController
 
         $user->addSubscribedCategory($category);
         $entityManager->flush();
-
         return $this->redirectToRoute('subscriptions');
     }
 
@@ -58,7 +58,6 @@ class SubscriptionsController extends AbstractController
 
         $user->removeSubscribedCategory($category);
         $entityManager->flush();
-
         return $this->redirectToRoute('subscriptions');
     }
 }
