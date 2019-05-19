@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
             
             if(!$this->captchaverify($request->get('g-recaptcha-response')))
             {
-                $message = "The reCAPTCHA wasn't entered correctly. Go back and try it again.";
+                $message = "reCAPTCHA buvo įvesta nesėkmingai.";
             }
             else
             {
@@ -67,7 +67,7 @@ class RegistrationController extends AbstractController
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, array(
-            "secret"=>"6LfLOqQUAAAAAKnHelEolkPVmIey1HHKVy6Jhh4X","response"=>$recaptcha));
+            "secret"=> $_ENV['RECAPTCHA_SECRET'],"response"=>$recaptcha));
         $response = curl_exec($ch);
         curl_close($ch);
         $data = json_decode($response);     
