@@ -29,7 +29,6 @@ class UserProfileController extends AbstractController
             'id' => $id
         ]);
         
-        $avatar = $user->getAvatar();
         $myProfile = false;
         $loggedUser = $this->get('security.token_storage')->getToken()->getUser();
         if ($id == $loggedUser->getId()) {
@@ -43,9 +42,7 @@ class UserProfileController extends AbstractController
         return $this->render('user_profile/user_profile.html.twig', [
             'pageTitle' => 'Profilis',
             'user' => $user,
-            'avatar' => $avatar,
             'invalidUser' => $invalidUser,
-            'date' =>$user->getRegisterDate()->format("Y-m-d"),
             'isOwnProfile' => $myProfile
         ]);
     }

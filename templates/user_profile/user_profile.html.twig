@@ -20,14 +20,14 @@
             </div>
         </div>
 
-    {% endif %}
+    {% else %}
 
     <div class="container col-xs-12 col-md-10 bg-white {% if invalidUser %} mt-1 {% else %} mt-5 {% endif %}">
         <div class="row">
             <div class="col-xs-12 col-md-3 p-3 text-center border border-right-0 rounded-left">
-                {{ user.getEmail() }}
+                {{ user.email }}
                 <br><br>
-                <img src="{{ asset('uploads/avatars/') ~ avatar }}" alt="Profile avatar" class="rounded-circle" height="200" width="200" />
+                <img src="{{ asset('uploads/avatars/') ~ user.avatar }}" alt="Profile avatar" class="rounded-circle" height="200" width="200" />
                 <br>
                 <div class="button-change">
                     {% if isOwnProfile %}
@@ -36,9 +36,10 @@
                 </div>
             </div>
             <div class="col-xs-12 col-md-9 p-3 border rounded-right">
-                Užsiregistravo {{date}}<br>
+                Užsiregistravo {{ user.registerDate|date('Y-m-d') }}<br>
             </div>
         </div>
     </div>
+    {% endif %}
 
 {% endblock %}
