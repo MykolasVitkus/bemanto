@@ -48,6 +48,11 @@ class User implements UserInterface
     private $subscribedCategories;
 
     /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $registerDate;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
      */
     private $comments;
@@ -184,6 +189,16 @@ class User implements UserInterface
         if ($this->subscribedCategories->contains($subscribedCategory)) {
             return true;
         } else return false;
+    }
+
+    public function getRegisterDate(): ?\DateTimeInterface
+    {
+        return $this->registerDate;
+    }
+
+    public function setRegisterDate(?\DateTimeInterface $registerDate)
+    {
+        $this->registerDate = $registerDate;
     }
 
     /**
