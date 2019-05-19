@@ -75,7 +75,6 @@ class RegistrationController extends AbstractController
         curl_close($ch);
         $data = json_decode($response);
 
-        /* return $data->success; */
-        return true;
+        return $data->success;
     }
 }
