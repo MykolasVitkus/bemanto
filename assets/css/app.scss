@@ -1,19 +1,58 @@
 @import "~toastr/toastr.scss";
+
 body {
-    background-color: lightgray;
+  background-color: lightgray;
 }
+
 .container.form {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
+
 .paginator-navigation {
-    display: flex;
-    justify-content: center;
-    margin: 2em 0 2em 0;
+  display: flex;
+  justify-content: center;
+  margin: 2em 0 2em 0;
 }
+
+.main-image {
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+}
+.bg-image {
+  background-image: url("../../public/images/main.jpg");
+  background-position-y: -500px;
+}
+.main-image img {
+  position: relative;
+  top: -350px;
+}
+.main-image div {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  padding: 2em;
+}
+.main-image div p {
+  color: white;
+  font-size: 18pt;
+}
+
+.browse-link {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}
+
 @media(max-width: 768px) {
-    .form-horizontal {
-        flex-direction: column;
-    }
+  .form-horizontal {
+    flex-direction: column;
+  }
 }
