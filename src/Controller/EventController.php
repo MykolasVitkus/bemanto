@@ -125,7 +125,6 @@ class EventController extends AbstractController
                 $event->setPhoto($filename);
 
                 $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($event);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('event');
