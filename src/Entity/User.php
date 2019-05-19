@@ -192,7 +192,7 @@ class User implements UserInterface
         return $this->registerDate;
     }
 
-    public function setRegisterDate(?\DateTimeInterface $registerDate): self
+    public function setRegisterDate(?\DateTimeInterface $registerDate)
     {
         $this->registerDate = $registerDate;
     }
