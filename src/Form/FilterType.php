@@ -29,7 +29,7 @@ class FilterType extends AbstractType
                 'label' => 'Title',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Search by title'
+                    'placeholder' => 'Ieškoti'
                 ]
             ])
             ->add('category', ChoiceType::class, [
@@ -39,7 +39,7 @@ class FilterType extends AbstractType
                 },
                 'multiple' => false,
                 'expanded' => false,
-                'placeholder' => 'Category',
+                'placeholder' => 'Kategorija',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
@@ -50,7 +50,7 @@ class FilterType extends AbstractType
                 'attr' => [
                     'class' => 'form-control datetimepicker-input',
                     'data-target' => '#datetimepicker1',
-                    'placeholder' => 'Select a date'
+                    'placeholder' => 'Data nuo'
                 ]
             ])
             ->add('dateTo', TextType::class, [
@@ -58,7 +58,7 @@ class FilterType extends AbstractType
                 'attr' => [
                     'class' => 'form-control datetimepicker-input',
                     'data-target' => '#datetimepicker2',
-                    'placeholder' => 'Select a date'
+                    'placeholder' => 'Data iki'
                 ]
             ])
             ->add('priceFrom', NumberType::class, [
@@ -66,7 +66,7 @@ class FilterType extends AbstractType
                 'label' => 'Price From ($)',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Price from',
+                    'placeholder' => 'Kaina nuo',
                     'pattern' => '[0-9]+(\.[0-9][0-9]?)?'
                 ]
             ])
@@ -75,7 +75,7 @@ class FilterType extends AbstractType
                 'label' => 'Price To ($)',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Price to',
+                    'placeholder' => 'Kaina iki',
                     'pattern' => '[0-9]+(\.[0-9][0-9]?)?'
                 ]
             ])

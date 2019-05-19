@@ -18,19 +18,19 @@ class PasswordChangeType extends AbstractType
         $builder
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Slaptažodžių laukai turi sutapti',
                 'options' => [ 'attr' => ['class' => 'form-control']],
                 'required' => true,
-                'first_options'  => ['label' => 'New password'],
-                'second_options' => ['label' => 'Repeat new password'],
+                'first_options'  => ['label' => 'Naujas slaptažodis'],
+                'second_options' => ['label' => 'Pakartoti slaptažodį'],
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Įveskite slaptažodį',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Jūsų slaptažodis turi turėti bent {{ limit }} simbolių',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),

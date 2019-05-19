@@ -28,7 +28,8 @@ class UserProfileController extends AbstractController
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
             'id' => $id
         ]);
-        $avatar = '3ab8a545f258e526f51246c34ec51b79.png';
+        
+        $avatar = $user->getAvatar();
         $myProfile = false;
         $loggedUser = $this->get('security.token_storage')->getToken()->getUser();
         if ($id == $loggedUser->getId()) {
