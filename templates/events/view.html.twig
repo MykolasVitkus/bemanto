@@ -36,7 +36,8 @@
                         {% else %}
                             <a href="{{ path('category_subscribe', {'id': event.category.id }) }}">
                                 <button type="button" class="btn btn-success btn-labeled">
-                                    <span class="btn-label"><i class="fa fa-plus"></i></span>{{ event.category }}
+                                    <span class="btn-label"><i class="fa fa-plus"></i></span><span
+                                            class="category-label">{{ event.category }}</span>
                                 </button>
                             </a>
                         {% endif %}
