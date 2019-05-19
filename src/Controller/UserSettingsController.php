@@ -11,6 +11,7 @@ use App\Form\EmailChangeType;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\AvatarChangeType;
+use Symfony\Component\Filesystem\Filesystem;
 
 class UserSettingsController extends AbstractController
 {
@@ -153,6 +154,9 @@ class UserSettingsController extends AbstractController
             $file->move(
                 $avatarsDirectory, $fileName
             );
+
+            $fileSystem = new Filesystem();
+            $fileSystem->remove($avatarsDirectory . '/' . $avatar);
 
             $user->setAvatar($fileName);
             $entityManager = $this->getDoctrine()->getManager();
