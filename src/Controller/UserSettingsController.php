@@ -155,8 +155,11 @@ class UserSettingsController extends AbstractController
                 $avatarsDirectory, $fileName
             );
 
-            $fileSystem = new Filesystem();
-            $fileSystem->remove($avatarsDirectory . '/' . $avatar);
+            if($avatar !== "avatar.png")
+            {
+                $fileSystem = new Filesystem();
+                $fileSystem->remove($avatarsDirectory . '/' . $avatar);
+            }
 
             $user->setAvatar($fileName);
             $entityManager = $this->getDoctrine()->getManager();
