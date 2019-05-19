@@ -203,11 +203,26 @@ class EventController extends AbstractController
         );
         return $this->render('events/view.html.twig', [
             'event' => $event,
+            'user' => $user,
             'id'=> $event->getId(),
             'subscribed' => $isSubscribed,
             'comment_form' => $form->createView(),
             'pagination' => $pagination,
         ]);
+    }
+
+    /**
+     * @Route("/comments/delete/{id}", name="comment_delete")
+     */
+    public function deleteComment($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $comment = $entityManager->getRepository(Comment::class)->find($id);
+        $comment_event_id = $comment->getEvent()->getId();
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('view_event', ['id' => $comment_event_id]);
     }
 
     private function generateFilterQuery($formData, $queryBuilder)
@@ -236,52 +251,5 @@ class EventController extends AbstractController
             $queryBuilder->andWhere("Event.price <= :priceTo")
                 ->setParameter('priceTo', ($formData['priceTo']));
         }
-    }
-
-    /**
-     * @Route("/comment/create", name="comment_create")
-     * @Security("is_granted('ROLE_USER')")
-     */
-    public function createComment(Request $request)
-    {
-        $event = new Event();
-
-        $form = $this->createForm(EventCreateType::class, $event, [
-            'action' => $this->generateUrl('event_create')
-        ]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $file = $request->files->get('event_create')['photo'];
-            if ($file->getClientSize() > 3000000) {
-                $this->addFlash('danger', 'Failo dydis yra per didelis.');
-            }
-            if ($file->getClientMimeType() === 'image/png' || $file->getClientMimeType() === 'image/jpeg') {
-                $uploads_directory = $this->getParameter('events_directory');
-                $filename = md5(uniqid()) . '.' . $file->guessExtension();
-
-                $file->move(
-                    $uploads_directory,
-                    $filename
-                );
-
-                $event->setPhoto($filename);
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($event);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('event');
-            } else {
-                $this->addFlash('danger', 'Pateiktas failas yra netinkamas.');
-            }
-        }
-
-        return $this->render('events/create.html.twig', [
-            'pageTitle' => 'Renginio kūrimas',
-            'actionButton' => 'Sukurti renginį',
-            'event_form' => $form->createView()
-        ]);
     }
 }
