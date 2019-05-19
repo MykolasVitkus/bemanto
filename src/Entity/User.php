@@ -48,9 +48,15 @@ class User implements UserInterface
     private $subscribedCategories;
 
     /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $registerDate;
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
      */
     private $comments;
+
+  
 
     public function __construct()
     {
@@ -181,6 +187,15 @@ class User implements UserInterface
         } else return false;
     }
 
+    public function getRegisterDate(): ?\DateTimeInterface
+    {
+        return $this->registerDate;
+    }
+
+    public function setRegisterDate(?\DateTimeInterface $registerDate): self
+    {
+        $this->registerDate = $registerDate;
+    }
     /**
      * @return Collection|Comment[]
      */

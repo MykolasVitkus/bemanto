@@ -6,6 +6,7 @@
 parameters:
     locale: 'en'
     avatars_directory: '%kernel.project_dir%/public/uploads/avatars'
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     events_directory: '%kernel.project_dir%/public/uploads/events'
 
 services:
