@@ -23,17 +23,17 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $user = new User();
-        $recaptcha = new ReCaptcha('6LfLOqQUAAAAAKnHelEolkPVmIey1HHKVy6Jhh4X');
+
+        $recaptcha = new ReCaptcha($_ENV['RECAPTCHA_SECRET']);
 
         $message = "";
-
 
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            
             if (!$this->captchaverify($request->get('g-recaptcha-response'))) {
                 $message = "reCAPTCHA buvo įvesta nesėkmingai.";
             } else {
@@ -44,6 +44,7 @@ class RegistrationController extends AbstractController
                         $form->get('password')->getData()
                     )
                 );
+                $user->setAvatar('avatar.png');
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
