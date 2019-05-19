@@ -46,8 +46,8 @@
                                     <a class="dropdown-item" href={{ path('app_userSettings') }}><i class="fas fa-tools mr-2"></i> Nustatymai</a>
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="{{ path('user_deletion') }}"><i class="fas fa-users mr-2"></i> Vartotojai</a>
-                                        <a class="dropdown-item" href="{{ path('categories') }}"><i class="fas fa-tags mr-2"></i> Kategorijos</a>
+                                        <a class="dropdown-item" href="{{ path('user_deletion') }}"><i class="fas fa-users mr-2"></i>Vartotojai</a>
+                                        <a class="dropdown-item" href="{{ path('categories') }}"><i class="fas fa-tags mr-2"></i>Kategorijos</a>
                                         <a class="dropdown-item" href="{{ path('event_create') }}"><i class="fas fa-calendar-plus mr-2"></i> Kurti renginį</a>
                                     {% endif %}
                                     <div class="dropdown-divider"></div>
