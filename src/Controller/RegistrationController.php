@@ -23,7 +23,6 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $user = new User();
-        $recaptcha = new ReCaptcha('6LfLOqQUAAAAAKnHelEolkPVmIey1HHKVy6Jhh4X');
 
         $message = "";
 
@@ -42,7 +41,7 @@ class RegistrationController extends AbstractController
                         $form->get('password')->getData()
                     )
                 );
-                $user->setAvatar('3ab8a545f258e526f51246c34ec51b79.png');
+                $user->setAvatar('avatar.png');
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
