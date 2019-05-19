@@ -24,6 +24,8 @@ class RegistrationController extends AbstractController
         }
         $user = new User();
 
+        $recaptcha = new ReCaptcha($_ENV['RECAPTCHA_SECRET']);
+
         $message = "";
 
         $form = $this->createForm(RegistrationFormType::class, $user);
