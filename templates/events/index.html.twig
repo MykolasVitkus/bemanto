@@ -42,8 +42,14 @@
                         </a>
                         {% if is_granted('ROLE_ADMIN') %}
                         <a href={{ path('event_edit', {id: event.id}) }}>
-                            <button class="btn btn-success bottom" style="position: absolute; bottom: 15px; left: 170px;"
-                                type="button">Redaguoti
+                            <button class="btn btn-success bottom"
+                                style="position: absolute; bottom: 15px; left: 170px;" type="button">Redaguoti
+                            </button>
+                        </a>
+
+                        <a href={{ path('event_delete', {id: event.id}) }}>
+                            <button class="btn btn-danger bottom" style="position: absolute; bottom: 15px; left: 270px;"
+                                type="button">Pašalinti
                             </button>
                         </a>
                         {% endif %}

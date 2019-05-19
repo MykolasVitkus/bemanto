@@ -156,6 +156,19 @@ class EventController extends AbstractController
             'edit_form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/events/event_delete/{id}", name="event_delete")
+     */
+    public function delete($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $event = $entityManager->getRepository(Event::class)->find($id);
+        $entityManager->remove($event);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('event');
+    }
     
     /** 
      * @Route("/events/{id}", name="view_event")
