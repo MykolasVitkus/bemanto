@@ -1,0 +1,101 @@
+
+<div class="container col-xs-12 col-md-10 mt-5 bg-white">
+    <div class="row d-flex justify-content-around">
+        <div class="col-12">
+            <h3>{{ pageTitle }}</h3><br>
+        </div>
+        <div class="col-12 col-md-5">
+
+            {% for message in app.flashes('danger') %}
+
+            <div class="alert alert-danger">
+
+                {{ message }}
+
+            </div>
+
+            {% endfor %}
+
+            {{ form_start(event_form) }}
+
+            {% if form_errors(event_form.title) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(event_form.title) }}
+
+            </div>
+            {% endif %}
+            <div class="mt-2">
+                {{ form_widget(event_form.title) }}
+            </div>
+
+
+            {% if form_errors(event_form.description) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(event_form.description) }}
+
+            </div>
+            {% endif %}
+            <div class="mt-2">
+                {{ form_widget(event_form.description) }}
+            </div>
+
+            {% if form_errors(event_form.date) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(event_form.date) }}
+
+            </div>
+            {% endif %}
+            <div class="input-group date mt-2" id="datetimepicker3" data-target-input="nearest">
+                {{ form_widget(event_form.date) }}
+                <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+
+            {% if form_errors(event_form.price) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(event_form.price) }}
+
+            </div>
+            {% endif %}
+            <div class="mt-2">
+                {{ form_widget(event_form.price) }}
+            </div>
+
+            {% if form_errors(event_form.location) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(event_form.location) }}
+
+            </div>
+            {% endif %}
+            <div class="mt-2">
+                {{ form_widget(event_form.location) }}
+            </div>
+
+            {% if form_errors(event_form.category) %}
+            <div class="alert alert-danger">
+
+                {{ form_errors(event_form.category) }}
+
+            </div>
+            {% endif %}
+            <div class="mt-2">
+                {{ form_widget(event_form.category) }}
+            </div>
+
+            <div class="mt-2">
+                {{ form_widget(event_form.photo) }}
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-success mt-4" type="submit">{{ actionButton }}</button>
+            </div>
+            {{ form_end(event_form) }}
+        </div>
+    </div>
+</div>

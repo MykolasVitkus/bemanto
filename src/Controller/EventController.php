@@ -53,7 +53,7 @@ class EventController extends AbstractController
     {
         $event = new Event();
 
-        $form = $this->createForm(EventCreateType::class, [
+        $form = $this->createForm(EventCreateType::class, $event, [
             'action' => $this->generateUrl('event_create')
         ]);
 
@@ -74,14 +74,6 @@ class EventController extends AbstractController
                     $filename
                 );
 
-                $event->setTitle($form->get('title')->getData());
-                $event->setDescription($form->get('description')->getData());
-                $event->setDate($form->get('date')->getData());
-
-                $event->setPrice($form->get('price')->getData());
-                $event->setLocation($form->get('location')->getData());
-                $event->setCategory($form->get('category')->getData());
-
                 $event->setPhoto($filename);
 
                 $entityManager = $this->getDoctrine()->getManager();
@@ -96,7 +88,8 @@ class EventController extends AbstractController
 
         return $this->render('events/create.html.twig', [
             'pageTitle' => 'Renginio kūrimas',
-            'create_form' => $form->createView()
+            'actionButton' => 'Sukurti renginį',
+            'event_form' => $form->createView()
         ]);
     }
 
@@ -129,15 +122,6 @@ class EventController extends AbstractController
                     $uploads_directory,
                     $filename
                 );
-
-                $event->setTitle($form->get('title')->getData());
-                $event->setDescription($form->get('description')->getData());
-                $event->setDate($form->get('date')->getData());
-
-                $event->setPrice($form->get('price')->getData());
-                $event->setLocation($form->get('location')->getData());
-                $event->setCategory($form->get('category')->getData());
-
                 $event->setPhoto($filename);
 
                 $entityManager = $this->getDoctrine()->getManager();
@@ -153,7 +137,8 @@ class EventController extends AbstractController
 
         return $this->render('events/edit.html.twig', [
             'pageTitle' => 'Renginio redagavimas',
-            'edit_form' => $form->createView()
+            'actionButton' => 'Redaguoti renginį',
+            'event_form' => $form->createView()
         ]);
     }
 

@@ -1,79 +1,102 @@
 {# base.html.twig #}
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>bemanto | {% block title %}{% endblock %}</title>
 
-        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-              crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-              integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-              crossorigin="anonymous">
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css"/>
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
     {% block stylesheets %}
     {% endblock %}
 </head>
+
 <body>
-<!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">    
-            <div class="container">
-                <a class="navbar-brand mr-5" href={{ path('home') }}>bemanto</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                </button>
-        
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav mr-auto">
-                        {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('event') }}>Renginiai</a> </li>{% endif %}
-                        {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('app_login') }}>Prisijungti</a> </li>{% endif %}
-                        {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link" href={{ path('app_register') }}>Registruotis</a> </li>{% endif %}
-                    </ul>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a class="navbar-brand mr-5" href={{ path('home') }}>bemanto</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                    {% if is_granted('ROLE_USER') %}
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navBarProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-user mr-2"></i> {{ app.user.username }}
-                                </a>
-                                <div class="dropdown-menu mt-2" style="border-radius: 0 0 .25rem .25rem;" aria-labelledby="navBarProfileDropdown">
-                                    <a class="dropdown-item" href={{ path('app_myProfile') }}><i class="fas fa-user-circle mr-2"></i> Profilis</a>
-                                    <a class="dropdown-item" href={{ path('subscriptions')}}><i class="fas fa-plus-circle mr-2"></i> Sekamos kategorijos</a>
-                                    <a class="dropdown-item" href={{ path('app_userSettings') }}><i class="fas fa-tools mr-2"></i> Nustatymai</a>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="{{ path('user_deletion') }}"><i class="fas fa-users mr-2"></i> Vartotojai</a>
-                                        <a class="dropdown-item" href="{{ path('categories') }}"><i class="fas fa-tags mr-2"></i> Kategorijos</a>
-                                        <a class="dropdown-item" href="{{ path('event_create') }}"><i class="fas fa-calendar-plus mr-2"></i> Kurti renginį</a>
-                                    {% endif %}
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href={{ path('logout') }}><i class="fas fa-sign-out-alt mr-2"></i> Atsijungti</a>
-                            </li>
-                        </ul>
-                    {% endif %}
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav mr-auto">
+                    {% if is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link"
+                            href={{ path('event') }}>Renginiai</a> </li>{% endif %}
+                    {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link"
+                            href={{ path('app_login') }}>Prisijungti</a> </li>{% endif %}
+                    {% if not is_granted('ROLE_USER') %}<li class="nav-item"> <a class="nav-link"
+                            href={{ path('app_register') }}>Registruotis</a> </li>{% endif %}
+                </ul>
+
+                {% if is_granted('ROLE_USER') %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navBarProfileDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user mr-2"></i> {{ app.user.username }}
+                        </a>
+                        <div class="dropdown-menu mt-2" style="border-radius: 0 0 .25rem .25rem;"
+                            aria-labelledby="navBarProfileDropdown">
+                            <a class="dropdown-item" href={{ path('app_myProfile') }}><i
+                                    class="fas fa-user-circle mr-2"></i> Profilis</a>
+                            <a class="dropdown-item" href={{ path('subscriptions')}}><i
+                                    class="fas fa-plus-circle mr-2"></i> Sekamos kategorijos</a>
+                            <a class="dropdown-item" href={{ path('app_userSettings') }}><i
+                                    class="fas fa-tools mr-2"></i> Nustatymai</a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('user_deletion') }}"><i
+                                    class="fas fa-users mr-2"></i> Vartotojai</a>
+                            <a class="dropdown-item" href="{{ path('categories') }}"><i class="fas fa-tags mr-2"></i>
+                                Kategorijos</a>
+                            <a class="dropdown-item" href="{{ path('event_create') }}"><i
+                                    class="fas fa-calendar-plus mr-2"></i> Kurti renginį</a>
+                            {% endif %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href={{ path('logout') }}><i class="fas fa-sign-out-alt mr-2"></i>
+                                Atsijungti</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
         </div>
-    </div>
-</nav>
-{% block body %}{% endblock %}
+    </nav>
+    {% block body %}{% endblock %}
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
-{% block javascripts %}{% endblock %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js">
+    </script>
+
+    <script>
+        jQuery(document).ready(function () {
+            $('#datetimepicker3').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
+            });
+        });
+    </script>
+    {% block javascripts %}{% endblock %}
 </body>
+
 </html>
