@@ -195,7 +195,8 @@ class EventController extends AbstractController
         ->from('App:Comment', 'Comment')
         ->select("Comment")
         ->where("Comment.event = :event")
-            ->setParameter('event', $id);
+            ->setParameter('event', $id)
+        ->orderBy('Comment.date', 'DESC');
         $pagination = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
