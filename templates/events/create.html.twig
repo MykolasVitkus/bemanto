@@ -7,7 +7,7 @@
 <div class="container col-xs-12 col-md-10 mt-5 bg-white">
     <div class="row d-flex justify-content-around">
         <div class="col-12">
-            <h3>Renginio kūrimas</h3><br>
+            <h3>{{ pageTitle }}</h3><br>
         </div>
         <div class="col-12 col-md-5">
 
@@ -90,18 +90,17 @@
             </div>
             {% endif %}
             <div class="mt-2">
-
+                {{ form_widget(create_form.category) }}
             </div>
-            {{ form_widget(create_form.category) }}
+
+            <div class="mt-2">
+                {{ form_widget(create_form.photo) }}
+            </div>
 
             <div class="text-center">
                 <button class="btn btn-success mt-4" type="submit">Sukurti renginį</button>
             </div>
-
             {{ form_end(create_form) }}
-        </div>
-        <div class="col-12 col-md-4">
-            <img src="https://via.placeholder.com/300" alt="">
         </div>
     </div>
 </div>

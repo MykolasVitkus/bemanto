@@ -32,12 +32,14 @@ class EventCreateType extends AbstractType
                     'placeholder' => 'Renginio aprašymas'
                 ]
             ])
-            ->add('date', TextType::class, [
+            ->add('date', DateTimeType::class, [
                 'attr' => [
                     'class' => 'form-control datetimepicker-input',
                     'data-target' => '#datetimepicker1',
                     'placeholder' => 'Renginio data'
-                ]
+                ],
+                'widget' => 'single_text',
+                'html5' => false
             ])
             ->add('price', MoneyType::class, [
                 'attr' => [
