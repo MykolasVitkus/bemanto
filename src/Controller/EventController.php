@@ -7,9 +7,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Validator\Constraints\DateTime;
 use App\Entity\Event;
+use App\Form\EventCreateType;
 
 class EventController extends AbstractController
 {
@@ -42,6 +45,60 @@ class EventController extends AbstractController
     }
 
     /**
+     * @Route("/events/create", name="event_create")
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function create(Request $request)
+    {
+        $event = new Event();
+
+        $form = $this->createForm(EventCreateType::class, [
+            'action' => $this->generateUrl('event_create')
+        ]);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $file = $request->files->get('event_create')['photo'];
+            if($file->getClientSize() > 3000000) {
+                $this->addFlash('danger', 'Failo dydis yra per didelis.');
+            }
+            if($file->getClientMimeType() === 'image/png' || $file->getClientMimeType() === 'image/jpeg') {
+                $uploads_directory = $this->getParameter('events_directory');
+                $filename = md5(uniqid()) . '.' . $file->guessExtension();
+
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+
+                $event->setTitle($form->get('title')->getData());
+                $event->setDescription($form->get('description')->getData());
+                $event->setDate(new \DateTime('@'.strtotime($form->get('date')->getData().'+ 2 hours')));
+
+                $event->setPrice($form->get('price')->getData());
+                $event->setLocation($form->get('location')->getData());
+                $event->setCategory($form->get('category')->getData());
+
+                $event->setPhoto($filename);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($event);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('event');
+            } else {
+                $this->addFlash('danger', 'Pateiktas failas yra netinkamas.');
+            }
+        }
+
+        return $this->render('events/create.html.twig', [
+            'pageTitle' => 'Renginio kūrimas',
+            'create_form' => $form->createView()
+        ]);
+    }
+    /** 
      * @Route("/events/{id}", name="view_event")
      * @Security("is_granted('ROLE_USER')")
      */
