@@ -77,7 +77,7 @@
                             </div>
                             <div class="col-md-9">
                                 <p class="float-left">
-                                    {{ comment.getAuthor().getEmail()}}
+                                    <a href="{{ path('app_userProfile', { 'id': comment.author.id }) }}">{{ comment.getAuthor().getEmail()}}</a>
                                 </p>
                                 <p class="float-right">
                                     {{ comment.getDate()|date('Y-m-d H:i')}}
