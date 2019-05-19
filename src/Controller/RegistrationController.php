@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $user = new User();
-        $recaptcha = new ReCaptcha('6LfLOqQUAAAAAKnHelEolkPVmIey1HHKVy6Jhh4X');
+        $recaptcha = new ReCaptcha($_ENV['RECAPTCHA_SECRET']);
 
         $message = "";
 
