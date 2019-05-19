@@ -25,6 +25,7 @@
                 <li class="li-menu"><a href={{ path('app_userSettings') }} {% if blockToShow == 0 %} class="active" {% endif %}><i class="fas fa-eye fa-lg mr-3 mt-1"></i> Apžvalga</a></li>
                 <li class="li-menu"><a href={{ path('app_changePassword') }} {% if blockToShow == 1 %} class="active" {% endif %}><i class="fas fa-key fa-lg mr-3 mt-1"></i> Slaptažodžio keitimas</a></li>
                 <li class="li-menu"><a href={{ path('app_changeEmail') }} {% if blockToShow == 2 %} class="active" {% endif %}><i class="fas fa-envelope fa-lg mr-3 mt-1"></i> El. pašto adreso keitimas</a></li>
+                <li class="li-menu"><a href={{ path('app_avatarChange') }} {% if blockToShow == 3 %} class="active" {% endif %}><i class="fas fa-portrait fa-lg mr-3 mt-1"></i> Nuotraukos keitimas</a></li>
             </ul>
         </div>
         <div class="col-xs-12 col-lg-9 border rounded-lg p-4">
@@ -149,10 +150,20 @@
                 {# Avatar change #}
                 {% elseif blockToShow == 3 %} 
 
-                    <div id="info-block" class="col-12 col-md-5">
+                    <div id="info-block" class="col-12 col-md-5 d-flex justify-content-center align-items-center">
 
-                        <img src="{{ asset('uploads/avatars/') ~ avatar }}" alt="Profile avatar" class="rounded-circle" height="200" width="200" />
-                   
+                        <img src="{{ asset('uploads/avatars/') ~ avatar }}" alt="Profile avatar" class="rounded-circle mr-5" height="200" width="200" />
+                        
+                        {{ form_start(avatar_form) }}
+
+                            <b>{{ form_label(avatar_form.avatar) }}</b>
+                            {{ form_widget(avatar_form.avatar) }}
+
+                            <div class="text-center">
+                                <button class="btn btn-danger mt-4 ml-n5" type="submit">Keisti</button> 
+                            </div>
+
+                        {{ form_end(avatar_form) }}
                     </div>
 
                 {% endif %}

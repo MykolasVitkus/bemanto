@@ -29,6 +29,7 @@ class RegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+            $user->setAvatar('3ab8a545f258e526f51246c34ec51b79.png');
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

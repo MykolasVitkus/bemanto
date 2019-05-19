@@ -53,7 +53,7 @@ class User implements UserInterface
     private $comments;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
 
@@ -222,7 +222,7 @@ class User implements UserInterface
         return $this->avatar;
     }
 
-    public function setAvatar(string $avatar): self
+    public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
 

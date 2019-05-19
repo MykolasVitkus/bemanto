@@ -10,6 +10,7 @@ use App\Form\UserPasswordChangeType;
 use App\Form\EmailChangeType;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\AvatarChangeType;
 
 class UserSettingsController extends AbstractController
 {
@@ -128,12 +129,37 @@ class UserSettingsController extends AbstractController
     /**
      * @Route("/account_settings/avatar_change", name="app_avatarChange")
      */
-    public function avatarChange()
+    public function avatarChange(Request $request)
     {
-        return $this->render('user_profile/avatar_change.html.twig', [
-            'pageTitle' => 'Nuotraukos keitimas',
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $avatar = $user->getAvatar();
+
+        $form = $this->createForm(AvatarChangeType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $file = $request->files->all()['avatar_change']['avatar'];
+            $avatarsDirectory = $this->getParameter('avatars_directory');
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            
+            $file->move(
+                $avatarsDirectory, $fileName
+            );
+
+            $user->setAvatar($fileName);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_avatarChange');
+        }
+
+        return $this->render('user_settings/user_settings.html.twig', [
+            'pageTitle' => 'Paskyros nustatymai',
             'blockToShow' => 3,
             'blockTitle' => 'Nuotraukos keitimas',
+            'avatar' => $avatar,
+            'avatar_form' => $form->createView(),
         ]);
     }
 }
