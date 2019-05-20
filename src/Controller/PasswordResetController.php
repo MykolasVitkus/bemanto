@@ -8,13 +8,14 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\PasswordResetType;
 use App\Entity\User;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use App\Service\EmailManager;
 
 class PasswordResetController extends AbstractController
 {
     /**
      * @Route("/password_reset", name="password_reset")
      */
-    public function index(Request $request, \Swift_Mailer $mailer)
+    public function index(Request $request, \Swift_Mailer $mailer, EmailManager $emailManager)
     {
         $form = $this->createForm(PasswordResetType::class, [
             'action' => $this->generateUrl('password_reset')
@@ -39,18 +40,16 @@ class PasswordResetController extends AbstractController
                 $hashedToken = password_hash($tokenToHash, PASSWORD_BCRYPT);
                 $generatedUrl = $this->generateUrl('password_reset_confirm', ['token' => $hashedToken, 'email' => $user->getEmail()], UrlGenerator::ABSOLUTE_URL);
 
-                $emailMessage = (new \Swift_Message('Password change request'))
-                    ->setFrom('bemantelio@gmail.com')
-                    ->setTo($user->getEmail())
-                    ->setBody(
-                        $this->renderView(
-                            'password_reset/pass_reset_message.html.twig',
-                            [
-                                'userEmail' => $user->getEmail(),
-                                'generatedUrl' => $generatedUrl ]
-                        ),
-                        'text/html'
-                    );
+                $emailMessage = $emailManager->sendEmail(
+                    'Password change request',
+                    $user->getEmail(),
+                    'password_reset/pass_reset_message.html.twig',
+                    'text/html', 
+                    [
+                        'userEmail' => $user->getEmail(),
+                        'generatedUrl' => $generatedUrl
+                    ]
+                );
 
                 $mailer->send($emailMessage);
             }
