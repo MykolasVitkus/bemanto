@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Login{% endblock %}
+{% block title %}Prisijungimas{% endblock %}
 {% block body %}
     <form method="post" class="container col-sm-4">
 
@@ -22,7 +22,7 @@
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">   
             </div>
             <input type="checkbox" id="remember_me" name="_remember_me" checked />
-            <label for="remember_me">Palikite mane prisijungųsį</label>
+            <label for="remember_me">Palikite mane prisijungusį</label>
             <div class="text-center">
                 <button class="btn btn-primary" type="submit">Patvirtinti</button>
                 <a href={{ '/register' }}><button class="btn btn-secondary" type="button">Registruotis</button></a>
