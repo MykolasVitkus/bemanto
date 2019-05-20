@@ -14,7 +14,7 @@ class MailConfirmController extends AbstractController
     /**
      * @Route("/confirm", name="confirm_email")
      */
-    public function index(Request $request, \Swift_Mailer $mailer, EmailManager $emailManager)
+    public function index(Request $request, EmailManager $emailManager)
     {
         $token = $request->query->get('token');
         $user= $this->get('security.token_storage')->getToken()->getUser();
@@ -27,7 +27,7 @@ class MailConfirmController extends AbstractController
                 $hashedToken = password_hash($tokenToHash, PASSWORD_BCRYPT);
                 $generatedUrl = $this->generateUrl('confirm_email', ['token' => $hashedToken], UrlGenerator::ABSOLUTE_URL);
 
-                $emailMessage = $emailManager->sendEmail(
+                $emailManager->sendEmail(
                     'Paskyros patvirtinimas',
                     $user->getEmail(),
                     'email_confirm/email_confirm_message.html.twig',
@@ -36,8 +36,6 @@ class MailConfirmController extends AbstractController
                         'generatedUrl' => $generatedUrl
                     ]
                 );
-
-                $mailer->send($emailMessage);
             }
             else if($isVerified)
             {

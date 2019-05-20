@@ -15,7 +15,7 @@ class PasswordResetController extends AbstractController
     /**
      * @Route("/password_reset", name="password_reset")
      */
-    public function index(Request $request, \Swift_Mailer $mailer, EmailManager $emailManager)
+    public function index(Request $request, EmailManager $emailManager)
     {
         $form = $this->createForm(PasswordResetType::class, [
             'action' => $this->generateUrl('password_reset')
@@ -40,7 +40,7 @@ class PasswordResetController extends AbstractController
                 $hashedToken = password_hash($tokenToHash, PASSWORD_BCRYPT);
                 $generatedUrl = $this->generateUrl('password_reset_confirm', ['token' => $hashedToken, 'email' => $user->getEmail()], UrlGenerator::ABSOLUTE_URL);
 
-                $emailMessage = $emailManager->sendEmail(
+                $emailManager->sendEmail(
                     'Slaptažodžio keitimas',
                     $user->getEmail(),
                     'password_reset/pass_reset_message.html.twig',
@@ -50,8 +50,6 @@ class PasswordResetController extends AbstractController
                         'generatedUrl' => $generatedUrl
                     ]
                 );
-
-                $mailer->send($emailMessage);
             }
             else
             {

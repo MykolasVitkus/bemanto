@@ -13,10 +13,10 @@ class EmailManager
         $this->templating = $templating;
     }
 
-    public function sendEmail(string $messageTitle, string $sendToEmail, string $template, string $textType, array $variables = []): \Swift_Message
+    public function sendEmail(string $messageTitle, string $sendToEmail, string $template, string $textType, array $variables = [])
     {
         $messageToSend = (new \Swift_Message($messageTitle))
-            ->setFrom('bemantelio@gmail.com')
+            ->setFrom($_ENV['MAILER_EMAIL_ADDRESS'])
             ->setTo($sendToEmail)
             ->setBody(
                 $this->templating->render(
@@ -26,6 +26,6 @@ class EmailManager
                 $textType
             );
 
-        return $messageToSend;
+        $this->mailer->send($messageToSend);
     }
 }

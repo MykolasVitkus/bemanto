@@ -55,7 +55,7 @@ class EventController extends AbstractController
      * @Route("/events/create", name="event_create")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function create(Request $request, \Swift_Mailer $mailer, EmailManager $emailManager)
+    public function create(Request $request, EmailManager $emailManager)
     {
         $event = new Event();
 
@@ -85,7 +85,7 @@ class EventController extends AbstractController
                 $entityManager->persist($event);
                 $entityManager->flush();
 
-                $this->sendSubscriptionEmail($event, $mailer, $emailManager);
+                $this->sendSubscriptionEmail($event, $emailManager);
 
                 return $this->redirectToRoute('event');
             } else {
@@ -259,7 +259,7 @@ class EventController extends AbstractController
         }
     }
 
-    private function sendSubscriptionEmail($event, \Swift_Mailer $mailer, EmailManager $emailManager)
+    private function sendSubscriptionEmail($event, EmailManager $emailManager)
     {
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
         $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy([
@@ -272,7 +272,7 @@ class EventController extends AbstractController
         {
             if($user->isSubscribedCategory($category))
             {
-                $emailMessage = $emailManager->sendEmail(
+                $emailManager->sendEmail(
                     'Paskelbtas naujas renginys',
                     $user->getEmail(),
                     'events/subscription_message.html.twig',
@@ -283,8 +283,6 @@ class EventController extends AbstractController
                         'subscriptionsUrl' => $subscriptionsUrl
                     ]
                 );
-
-                $mailer->send($emailMessage);
             }
         }
     }
