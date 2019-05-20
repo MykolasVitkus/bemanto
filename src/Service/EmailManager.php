@@ -19,13 +19,10 @@ class EmailManager
             ->setFrom('bemantelio@gmail.com')
             ->setTo($sendToEmail)
             ->setBody(
-                $this->templating->render($template, $variables),
-                /*$this->templating->render(
-                    $template,
-                    [
-                        $variables 
-                    ]
-                ),*/
+                $this->templating->render(
+                    $template, 
+                    $variables
+                ),
                 $textType
             );
 

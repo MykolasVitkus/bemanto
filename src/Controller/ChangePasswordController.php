@@ -46,11 +46,11 @@ class ChangePasswordController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
-            $msg = 'Success.';
+            $msg = 'Sėkmingai.';
             }
             else
             {
-                $msg = 'This is not your current password.';
+                $msg = 'Neteisingai įvestas esamas slaptažodis';
             }
         }
 

@@ -33,7 +33,7 @@ class PasswordResetConfirmController extends AbstractController
 
         if(!password_verify($tokenToVerify, $token))
         {
-            $errorMessage = "There was a mistake trying to open this page. Please re-open the page by using a link from an email that we sent. If this keeps happening please contact website administrator.";
+            $errorMessage = "Įvyko klaida bandant atidaryti šį puslapį. Prašome atidaryti puslapį iš naujo naudojant el. laiške gautą nuorodą. Jei tai kartosis prašome susisiekti su administratoriumi.";
         }
 
         if($form->isSubmitted() && $form->isValid())
@@ -49,11 +49,11 @@ class PasswordResetConfirmController extends AbstractController
 
             $em->flush();
 
-            $successMessage = "Your password has been changed successfully. You can now login into your account.";
+            $successMessage = "Jūsų slaptažodis pakeistas sėkmingai. Galite prisijungti prie savo paskyros.";
         }
 
         return $this->render('password_reset_confirm/pass_reset_confirm.html.twig', [
-            'pageTitle' => "Password change",
+            'pageTitle' => "Slaptažodžio keitimas",
             'token' => $token,
             'email' => $email,
             'errorMessage' => $errorMessage,

@@ -22,7 +22,7 @@ class PasswordResetController extends AbstractController
         ]);
 
         $form->handleRequest($request);
-        $errorMessage = "Password recovery link was sent to your email. Please check your inbox and follow the instructions.";
+        $errorMessage = "Slaptažodžio atstatymo nuoroda buvo nusiųsta į Jūsų el. paštą. Peržiūrėkite savo pašto dėžutę ir sekite instrukcijas.";
         $errorType = "success";
         $errorTitle = null;
 
@@ -34,14 +34,14 @@ class PasswordResetController extends AbstractController
 
             if(isset($user))
             {
-                $errorTitle = "Success! ";
+                $errorTitle = "Sėkmingai! ";
 
                 $tokenToHash = $user->getEmail() . ':' . $user->getPassword();
                 $hashedToken = password_hash($tokenToHash, PASSWORD_BCRYPT);
                 $generatedUrl = $this->generateUrl('password_reset_confirm', ['token' => $hashedToken, 'email' => $user->getEmail()], UrlGenerator::ABSOLUTE_URL);
 
                 $emailMessage = $emailManager->sendEmail(
-                    'Password change request',
+                    'Slaptažodžio keitimas',
                     $user->getEmail(),
                     'password_reset/pass_reset_message.html.twig',
                     'text/html', 
@@ -56,13 +56,13 @@ class PasswordResetController extends AbstractController
             else
             {
                 $errorType = "danger";
-                $errorTitle = "Oops... ";
-                $errorMessage = "The given email was not found. Please check your email and try again.";
+                $errorTitle = "Ups... ";
+                $errorMessage = "Nurodytas el. pašto adresas nerastas. Pasitikrinkite savo adresą ir pabandykite dar kartą.";
             }
         }
 
         return $this->render('password_reset/pass_reset.html.twig', [
-            'pageTitle' => 'Password reset',
+            'pageTitle' => 'Slaptažodžio atstatymas',
             'errorMessage' => $errorMessage,
             'errorType' => $errorType,
             'errorTitle' => $errorTitle,
