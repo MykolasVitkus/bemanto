@@ -72,22 +72,24 @@
 
                     <div id="info-block" class="col-xs-12 col-md-5">
 
-                        {% if errorMessage %}
+                        {% for message in app.flashes('success') %}
 
                             <div class="alert alert-success">
                                 {{ errorMessage }}
                             </div>
 
-                        {% endif %}
+                        {% endfor %}
 
                         {{ form_start(changePasswordForm) }}
 
                             {{ form_row(changePasswordForm.currentpw) }}
-                            {% if wrongPassword %}
+                            {% for message in app.flashes('error') %}
+
                                 <div class="form-error ml-4"> 
-                                    • Neteisingai įvestas esamas slaptažodis!
+                                    {{ message }}
                                 </div>
-                            {% endif %}
+
+                            {% endfor %}
                             <br>
 
                             {{ form_label(changePasswordForm.newpw.first) }}
@@ -112,32 +114,36 @@
 
                     <div id="info-block" class="col-xs-12 col-md-5">
 
-                        {% if successMessage %}
+                        {% for message in app.flashes('success') %}
 
                             <div class="alert alert-success">
-                                Paskyros el. pašto adresas pakeistas!
+                                {{ message }}
                                 {# Į dabartinį el. pašto adresą buvo išsiųstas laiškas su el. pašto adreso keitimo instrukcija #}
                             </div>
 
-                        {% endif %}
+                        {% endfor %}
 
                         {{ form_start(emailChangeForm) }}
 
                             {{ form_row(emailChangeForm.email) }}
-                            {% if invalidEmail %}
+                            {% for message in app.flashes('error') %}
+
                                 <div class="form-error ml-4"> 
-                                    • Vartotojas tokiu el. pašto adresu jau egzistuoja
+                                    {{ message }}
                                 </div>
-                            {% endif %}
+
+                            {% endfor %}
                             <br>
 
                             {{ form_label(emailChangeForm.password) }}
                             {{ form_widget(emailChangeForm.password) }}
-                            {% if wrongPassword %}
+                            {% for message in app.flashes('wrong') %}
+
                                 <div class="form-error ml-4"> 
-                                    • Neteisingai įvestas slaptažodis
+                                    {{ message }}
                                 </div>
-                            {% endif %}
+
+                            {% endfor %}
 
                             <div class="text-center">
                                 <button class="btn btn-danger mt-4" type="submit">Keisti</button> 

@@ -22,9 +22,6 @@ class PasswordResetController extends AbstractController
         ]);
 
         $form->handleRequest($request);
-        $errorMessage = "Slaptažodžio atstatymo nuoroda buvo nusiųsta į Jūsų el. paštą. Peržiūrėkite savo pašto dėžutę ir sekite instrukcijas.";
-        $errorType = "success";
-        $errorTitle = null;
 
         if($form->isSubmitted() && $form->isValid())
         {
@@ -34,7 +31,7 @@ class PasswordResetController extends AbstractController
 
             if(isset($user))
             {
-                $errorTitle = "Sėkmingai! ";
+                $this->addFlash('success', 'Slaptažodžio atstatymo nuoroda buvo nusiųsta į Jūsų el. paštą. Peržiūrėkite savo pašto dėžutę ir sekite instrukcijas.');
 
                 $tokenToHash = $user->getEmail() . ':' . $user->getPassword();
                 $hashedToken = password_hash($tokenToHash, PASSWORD_BCRYPT);
@@ -53,17 +50,12 @@ class PasswordResetController extends AbstractController
             }
             else
             {
-                $errorType = "danger";
-                $errorTitle = "Ups... ";
-                $errorMessage = "Nurodytas el. pašto adresas nerastas. Pasitikrinkite savo adresą ir pabandykite dar kartą.";
+                $this->addFlash('danger', 'Nurodytas el. pašto adresas nerastas. Pasitikrinkite savo adresą ir pabandykite dar kartą.');
             }
         }
 
         return $this->render('password_reset/pass_reset.html.twig', [
             'pageTitle' => 'Slaptažodžio atstatymas',
-            'errorMessage' => $errorMessage,
-            'errorType' => $errorType,
-            'errorTitle' => $errorTitle,
             'email_form' => $form->createView(),
         ]);
     }
