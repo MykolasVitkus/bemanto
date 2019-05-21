@@ -80,7 +80,7 @@ class FilterType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Filter',
+                'label' => 'Filtruoti',
                 'attr' => [
                     'class' => 'btn btn-primary'
                 ]

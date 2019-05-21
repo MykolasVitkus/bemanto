@@ -32,7 +32,8 @@ class EventController extends AbstractController
         $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
         $qb = $manager->createQueryBuilder()
             ->from('App:Event', 'Event')
-            ->select("Event");
+            ->select("Event")
+            ->orderBy('A.id', 'DESC');
         $form = $this->createForm(FilterType::class);
         $form->handleRequest($request);
         $formData = $form->getData();
