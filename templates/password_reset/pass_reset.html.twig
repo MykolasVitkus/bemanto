@@ -21,13 +21,21 @@
             <h1 class="mt-2">Pamiršote slaptažodį?</h1>
             <p class="lead">Jeigu pamiršote slaptažodį, įveskite savo elektroninį paštą ir mes jums atsiųsime nuorodą atstatyti naujam slaptažodžiui</p>
 
-            {% if errorTitle %}
+            {% for message in app.flashes('success') %}
 
-                <div class = "alert alert-{{ errorType }}">
-                    <strong>{{ errorTitle }}</strong> {{ errorMessage }}
+                <div class = "alert alert-success">
+                    {{ message }}
                 </div>
 
-            {% endif %}
+            {% endfor %}
+
+            {% for message in app.flashes('danger') %}
+
+                <div class = "alert alert-danger">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
 
             {{ form_start(email_form) }}
             

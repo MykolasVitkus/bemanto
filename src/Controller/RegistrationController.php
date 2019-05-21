@@ -26,8 +26,6 @@ class RegistrationController extends AbstractController
 
         $recaptcha = new ReCaptcha($_ENV['RECAPTCHA_SECRET']);
 
-        $message = "";
-
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -35,7 +33,8 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             if (!$this->captchaverify($request->get('g-recaptcha-response'))) {
-                $message = "reCAPTCHA buvo įvesta nesėkmingai.";
+                
+                $this->addFlash('danger', 'Prašome patvirtinti, jog esate ne robotas:');
             } else {
                 $user->setPassword(
                     $passwordEncoder->encodePassword(
@@ -49,15 +48,12 @@ class RegistrationController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
 
-                // do anything else you need here, like send an email
-
                 return $this->redirectToRoute('home');
             }
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-            'captchaMsg' => $message,
         ]);
     }
 

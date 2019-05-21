@@ -53,7 +53,7 @@ class User implements UserInterface
     private $registerDate;
   
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author", orphanRemoval=true)
      */
     private $comments;
 

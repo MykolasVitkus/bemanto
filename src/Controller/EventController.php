@@ -17,6 +17,9 @@ use App\Entity\Comment;
 use App\Form\EventCreateType;
 use App\Form\CommentType;
 use Symfony\Component\HttpFoundation\File\File;
+use App\Entity\Category;
+use App\Service\EmailManager;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class EventController extends AbstractController
 {
@@ -29,7 +32,8 @@ class EventController extends AbstractController
         $events = $this->getDoctrine()->getRepository(Event::class)->findAll();
         $qb = $manager->createQueryBuilder()
             ->from('App:Event', 'Event')
-            ->select("Event");
+            ->select("Event")
+            ->orderBy('A.id', 'DESC');
         $form = $this->createForm(FilterType::class);
         $form->handleRequest($request);
         $formData = $form->getData();
@@ -52,7 +56,7 @@ class EventController extends AbstractController
      * @Route("/events/create", name="event_create")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function create(Request $request)
+    public function create(Request $request, EmailManager $emailManager)
     {
         $event = new Event();
 
@@ -81,6 +85,8 @@ class EventController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($event);
                 $entityManager->flush();
+
+                $this->sendSubscriptionEmail($event, $emailManager);
 
                 return $this->redirectToRoute('event');
             } else {
@@ -164,7 +170,7 @@ class EventController extends AbstractController
         $event = $this->getDoctrine()->getRepository(Event::class)->findOneBy(['id' => $id]);
         if (!$event) {
             throw $this->createNotFoundException(
-                'There is no events with the following id: ' . $id
+                'Renginys šiuo ID nerastas: ' . $id
             );
         }
         $user = $this->get('security.token_storage')->getToken()->getUser();
@@ -251,6 +257,34 @@ class EventController extends AbstractController
         if (isset($formData) && isset($formData['priceTo'])) {
             $queryBuilder->andWhere("Event.price <= :priceTo")
                 ->setParameter('priceTo', ($formData['priceTo']));
+        }
+    }
+
+    private function sendSubscriptionEmail($event, EmailManager $emailManager)
+    {
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy([
+            'id' => $event->getCategory()
+        ]);
+        $generatedUrl = $this->generateUrl('view_event', ['id' => $event->getId()], UrlGenerator::ABSOLUTE_URL);
+        $subscriptionsUrl = $this->generateUrl('subscriptions', [], UrlGenerator::ABSOLUTE_URL);
+
+        foreach($users as $user)
+        {
+            if($user->isSubscribedCategory($category))
+            {
+                $emailManager->sendEmail(
+                    'Paskelbtas naujas renginys',
+                    $user->getEmail(),
+                    'events/subscription_message.html.twig',
+                    'text/html', 
+                    [
+                        'categoryName' => $category->getName(),
+                        'eventUrl' => $generatedUrl,
+                        'subscriptionsUrl' => $subscriptionsUrl
+                    ]
+                );
+            }
         }
     }
 }
