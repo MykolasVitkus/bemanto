@@ -38,9 +38,6 @@ class UserSettingsController extends AbstractController
         $form = $this->createForm(UserPasswordChangeType::class);
         $form->handleRequest($request);
 
-        $msg = null;
-        $wrongPassword = false;
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $currentpw = $user->getPassword();
@@ -57,21 +54,19 @@ class UserSettingsController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->flush();
 
-                $msg = 'Slaptažodis pakeistas sėkmingai!';
+                $this->addFlash('success', 'Slaptažodis pakeistas sėkmingai!');
             }
             else
             {
-                $wrongPassword = true;
+                $this->addFlash('error', '• Neteisingai įvestas esamas slaptažodis!');
             }
         }
 
         return $this->render('user_settings/user_settings.html.twig', [
             'pageTitle' => 'Paskyros nustatymai',
             'changePasswordForm' => $form->createView(),
-            'errorMessage' => $msg,
             'blockToShow' => 1,
             'blockTitle' => 'Slaptažodžio keitimas',
-            'wrongPassword' => $wrongPassword,
         ]);
     }
 
@@ -83,10 +78,6 @@ class UserSettingsController extends AbstractController
         $form = $this->createForm(EmailChangeType::class);
         $form->handleRequest($request);
 
-        $successMessage = false;
-        $wrongPassword = false;
-        $invalidEmail = false;
-
         if($form->isSubmitted() && $form->isValid())
         {
             $givenEmail = $form->get('email')->getData();
@@ -97,7 +88,7 @@ class UserSettingsController extends AbstractController
 
             if(isset($checkEmail))
             {
-                $invalidEmail = true;
+                $this->addFlash('error', '• Vartotojas tokiu el. pašto adresu jau egzistuoja');
             }
             else
             {
@@ -110,17 +101,14 @@ class UserSettingsController extends AbstractController
                     $em = $this->getDoctrine()->getManager();
                     $user->setEmail($givenEmail);
                     $em->flush();
-                    $successMessage = true;
+                    $this->addFlash('success', 'Paskyros el. pašto adresas pakeistas!');
                 }
-                else $wrongPassword = true;
+                else $this->addFlash('wrong', '• Neteisingai įvestas slaptažodis');
             }
         }
 
         return $this->render('user_settings/user_settings.html.twig', [
             'pageTitle' => 'Paskyros nustatymai',
-            'successMessage' => $successMessage,
-            'wrongPassword' => $wrongPassword,
-            'invalidEmail' => $invalidEmail,
             'emailChangeForm' => $form->createView(),
             'blockToShow' => 2,
             'blockTitle' => 'El. pašto adreso keitimas',

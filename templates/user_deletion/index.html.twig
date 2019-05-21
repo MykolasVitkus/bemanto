@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User deletion{% endblock %}
+{% block title %}Vartotojų šalinimas{% endblock %}
 
 {% block body %}
 <style>
@@ -13,12 +13,11 @@
 </div>
 
 {# total items count #}
-<div class="count">
-   <h4>Vartotojų kiekis: {{ pagination.getTotalItemCount }}</h4>
-   </br>
+<div class="count" align="center">
+   <h5><small>Vartotojų kiekis: {{ pagination.getTotalItemCount }}</small></h5>
 </div>
 
-<table style="max-width:50vh" class="table table-hover">
+<table style="max-width:50vh" class="table table-hover" align="center">
   <thead>
     <tr>
       <th style="width: 5%" scope="col"><b>ID</b></th>
