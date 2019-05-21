@@ -4,37 +4,27 @@
 
 {% block body %}
 
-    <div class="container col-xs-12 col-md-10 mt-5 bg-white">
-        <div class="row">
-            <div class="col col-xs-6">
-                
-                <table style="max-width:50vh" class="table mt-3">
-                    <thead>
-                        <tr>
-                            
-                            <th>Pavadinimas</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                        {% for cat in categoriesArray %}
-                            <tr>                             
-                                <td>{{ cat.category.name }}</td>
+    <div class="album bg-light">
+        <div class="container bg-light">
+            <div class="row pt-4">
+                {% for cat in categoriesArray %}
+                <div class="col-12 col-md-4 bg-light p-2" style="width: 300px; overflow: hidden;">
+                    <div class="card-columns box-shadow" style="column-count: 1">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <font class="card-text"><b>{{ cat.category.name }}</b></font><hr>
                                 {% if cat.isSub == true %}
-                                    <td><a href="{{ path('category_unsubscribe', { 'id' : cat.category.id }) }}"><button type="button" class="btn btn-danger"><i class="fas fa-minus"></i> </button><a>        
+                                    <td><a href="{{ path('category_unsubscribe', { 'id' : cat.category.id }) }}"><button type="button" class="btn btn-danger border"><i class="fas fa-minus"></i> </button><a>        
                                 {% else %}
-                                    <td><a href="{{ path('category_subscribe', { 'id' : cat.category.id }) }}"><button type="button" class="btn btn-success"><i class="fas fa-plus"></i> </button><a>
-                              {% endif %}
-                            <tr>
-                        {% endfor %}
-                        
-                    </tbody>
-                <table>
-
+                                    <td><a href="{{ path('category_subscribe', { 'id' : cat.category.id }) }}"><button type="button" class="btn btn-success border"><i class="fas fa-plus"></i> </button><a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
-
     </div>
 
 {% endblock %}
