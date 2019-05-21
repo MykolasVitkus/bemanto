@@ -29,6 +29,7 @@ class UserManager
         $user->setEmail($email);
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
         $user->setRoles(['ROLE_ADMIN']);
+        $user->setAvatar('avatar.png');
         $this->objectManager->persist($user);
         $this->objectManager->flush();
     }
